@@ -31,7 +31,7 @@ CONFIG = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
 def collect():
     now = datetime.now(timezone.utc)
     data = {"generated_at": now.isoformat(timespec="seconds")}
-    for key in ("indices", "korea", "sectors", "stocks", "macro"):
+    for key in ("indices", "sectors", "stocks", "macro"):
         data[key] = [q for q in (sources.quote(i) for i in CONFIG[key]) if q]
     data["hy"] = sources.fred_level(CONFIG["risk"]["high_yield_fred"])
     data["yields"] = [y for y in (sources.yield_row(i) for i in CONFIG["yields"]) if y]
@@ -84,14 +84,12 @@ def demo_data(day, seed):
         return out
 
     levels = [52200, 7520, 25060, 2450]
-    macro_levels = [68.4, 4120, 99.8, 17.2, 98500]
-    korea_levels = [7100, 78, 210, 27, 1452.3]
+    macro_levels = [68.4, 4120, 1452.3, 99.8, 17.2, 98500]
     gen = datetime.fromisoformat(day + "T22:40:00+00:00")
     data = {
         "generated_at": gen.isoformat(),
         "market_date": day,
         "indices": fake(CONFIG["indices"], lambda n: levels[n % len(levels)], 0.008),
-        "korea": fake(CONFIG["korea"], lambda n: korea_levels[n % len(korea_levels)], 0.012),
         "hy": {"date": day, "value": round(rnd.uniform(2.8, 3.6), 2), "change": 0.02},
         "sectors": fake(CONFIG["sectors"], lambda n: 100 + n * 7, 0.011),
         "stocks": fake(CONFIG["stocks"], lambda n: 150 + n * 60, 0.018),

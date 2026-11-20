@@ -1,4 +1,4 @@
-"""규칙 기반 해석: 한국장 참고 신호, 기간별 성과, 리스크 신호판.
+"""규칙 기반 해석: 기간별 성과, 리스크 신호판.
 
 임계값은 널리 쓰이는 관례적 기준이며, 투자 판단의 근거가 아니라 참고용입니다.
 수준(level): 0 안정 · 1 보통 · 2 경계 · 3 위험
@@ -8,35 +8,11 @@ LEVEL_LABEL = ["안정", "보통", "경계", "위험"]
 
 
 def _find(d, symbol):
-    for key in ("indices", "korea", "stocks", "macro", "sectors"):
+    for key in ("indices", "stocks", "macro", "sectors"):
         for q in d.get(key) or []:
             if q.get("symbol") == symbol:
                 return q
     return None
-
-
-# ---------------------------------------------------------------- 한국장
-
-def korea_note(d):
-    """SOX·EWY·달러/원으로 오늘 국내 증시 분위기를 한 줄로."""
-    sox, ewy, krw = _find(d, "^SOX"), _find(d, "EWY"), _find(d, "KRW=X")
-    parts = []
-    if sox and ewy:
-        a, b = sox["pct"], ewy["pct"]
-        if a >= 0.5 and b >= 0.5:
-            parts.append("반도체지수와 한국 ETF가 함께 올라 국내 증시에 우호적인 출발 신호예요")
-        elif a <= -0.5 and b <= -0.5:
-            parts.append("반도체지수와 한국 ETF가 함께 내려 국내 증시에 부담이 되는 신호예요")
-        elif abs(a) >= 1.5:
-            parts.append("반도체지수가 " + format(a, "+.1f") + "% 움직여 반도체 대형주 중심으로 영향이 클 수 있어요")
-        else:
-            parts.append("반도체지수와 한국 ETF 방향이 엇갈려 뚜렷한 신호는 약해요")
-    if krw:
-        if krw["pct"] >= 0.5:
-            parts.append("원화가 약세(달러/원 " + format(krw["pct"], "+.2f") + "%)라 외국인 수급에는 부담 요인이에요")
-        elif krw["pct"] <= -0.5:
-            parts.append("원화가 강세(달러/원 " + format(krw["pct"], "+.2f") + "%)라 외국인 수급에는 우호적이에요")
-    return ". ".join(parts) + "." if parts else ""
 
 
 # ---------------------------------------------------------------- 기간별 성과

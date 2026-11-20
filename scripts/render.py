@@ -81,7 +81,7 @@ def summary_lines(d):
             + pct(top["pct"]) + "</b>"
         )
     ten = next((y for y in d.get("yields") or [] if y["name"] == "10년물"), None)
-    macro = {m["name"]: m for m in (d.get("macro") or []) + (d.get("korea") or [])}
+    macro = {m["name"]: m for m in (d.get("macro") or [])}
     tail = []
     if ten:
         tail.append("10년물 금리 " + format(ten["value"], ".2f") + '% (<b class="' + sign(ten["bp"]) + '">' + format(ten["bp"], "+d") + "bp</b>)")
@@ -168,27 +168,6 @@ def _val(it):
     unit = it.get("unit", "")
     val = format(it["close"], ",." + digits + "f")
     return "$" + val if unit == "$" else val + unit if unit else val
-
-
-def render_korea(d):
-    items = d.get("korea") or []
-    if not items:
-        return empty("한국장 관련 데이터를 가져오지 못했습니다.")
-    note = signals.korea_note(d)
-    tiles = []
-    for it in items:
-        c = sign(it["pct"])
-        tiles.append(
-            '<div class="tile"><span class="name">' + escape(it["name"]) + "</span>"
-            '<span class="px">' + escape(_val(it)) + '</span><span class="v ' + c + '">' + pct(it["pct"]) + "</span>"
-            + spark(it.get("spark"), c)
-            + ('<span class="role">' + escape(it["role"]) + "</span>" if it.get("role") else "") + "</div>"
-        )
-    return (
-        ('<p class="knote">' + escape(note) + "</p>" if note else "")
-        + '<div class="tiles t5">' + "".join(tiles) + "</div>"
-        + '<p class="note">미국장 마감 기준 참고 신호이며, 국내 개장 흐름과 다를 수 있습니다.</p>'
-    )
 
 
 def _cell(v):
@@ -342,7 +321,6 @@ def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=
         if summary else ""
     )
     sections = [
-        ("한국장 연결고리", render_korea(d)),
         ("지수 마감", render_indices(d.get("indices"))),
         ("섹터별 등락", render_sectors(d.get("sectors"))),
         ("주요 종목", render_stocks(d.get("stocks"))),

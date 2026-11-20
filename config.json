@@ -32,18 +32,12 @@
   "macro": [
     {"name": "WTI 유가", "symbol": "CL=F", "unit": "$", "digits": 2},
     {"name": "금", "symbol": "GC=F", "unit": "$", "digits": 1},
+    {"name": "달러/원", "symbol": "KRW=X", "unit": "원", "digits": 1},
     {"name": "달러 인덱스", "symbol": "DX-Y.NYB", "unit": "", "digits": 2},
     {"name": "VIX 변동성", "symbol": "^VIX", "unit": "", "digits": 2, "fred": "VIXCLS"},
     {"name": "비트코인", "symbol": "BTC-USD", "unit": "$", "digits": 0}
   ],
-  "korea": [
-    {"name": "필라델피아 반도체", "symbol": "^SOX", "role": "삼성전자·SK하이닉스 방향 참고"},
-    {"name": "한국 ETF (EWY)", "symbol": "EWY", "role": "미국에서 거래된 한국 주식 바스켓"},
-    {"name": "마이크론", "symbol": "MU", "role": "메모리 업황 비교 종목"},
-    {"name": "쿠팡", "symbol": "CPNG", "role": "미국 상장 한국 기업"},
-    {"name": "달러/원", "symbol": "KRW=X", "unit": "원", "digits": 1, "role": "외국인 수급과 원화 환산 수익률"}
-  ],
-  "performance": ["^GSPC", "^IXIC", "^DJI", "^RUT", "^SOX", "EWY", "NVDA", "AAPL", "MSFT", "GOOGL", "AMZN", "META", "AVGO", "TSLA", "GC=F", "BTC-USD"],
+  "performance": ["^GSPC", "^IXIC", "^DJI", "^RUT", "NVDA", "AAPL", "MSFT", "GOOGL", "AMZN", "META", "AVGO", "TSLA", "GC=F", "BTC-USD"],
   "risk": {"high_yield_fred": "BAMLH0A0HYM2"},
   "yields": [
     {"name": "2년물", "fred": "DGS2"},
