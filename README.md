@@ -1,22 +1,43 @@
 # us-morning-brief
 
-매일 아침 미국 시장 지수, 국채 금리, 연준 발표를 모아 보여주는 정적 웹페이지입니다.
+매일 아침 전날 미국장 흐름을 한 페이지에 모아 보여주는 정적 웹페이지입니다.
+사이트: https://jay99-ux.github.io/us-morning-brief/
+
+## 담긴 내용
+
+| 섹션 | 내용 | 출처 |
+|---|---|---|
+| 한눈에 보기 | 지수·섹터·종목·금리·원자재 수치로 자동 작성한 요약 문장 | 아래 데이터로 계산 |
+| 지수 마감 | 다우, S&P 500, 나스닥, 러셀 2000 + 최근 1개월 추이 | Yahoo Finance 차트 데이터 (실패 시 FRED) |
+| 섹터별 등락 | SPDR 섹터 ETF 11개 | Yahoo Finance |
+| 주요 종목 | 대형 기술주 8개 | Yahoo Finance |
+| 원자재·환율·변동성 | WTI, 금, 달러/원, 달러 인덱스, VIX, 비트코인 | Yahoo Finance (VIX는 실패 시 FRED) |
+| 국채 금리 | 2·10·30년물과 10년−2년 금리차 | FRED |
+| 주요 뉴스 | 최근 30시간 헤드라인과 링크 | CNBC, MarketWatch, WSJ RSS |
+| 경제지표 일정 | 앞으로 7일 주요 지표 발표일 | FRED API (키 필요, 아래 참고) |
+| 연준 발표 | 통화정책 발표, 연설·증언 | 연준 공식 RSS |
+| 지난 브리핑 | 날짜별 보관 페이지와 목록 | `data/history/*.json` |
+
+Yahoo Finance 차트 데이터는 공식 API가 아니어서 예고 없이 막힐 수 있습니다. 그때는 지수와 VIX만 FRED로 대체되고 나머지 항목은 비어 보입니다.
+
+## 항목 바꾸기
+
+`config.json`에서 종목·섹터·원자재 심볼(Yahoo 표기), 뉴스 RSS 주소, 일정에 표시할 지표를 고칠 수 있습니다.
+FRED에 없는 일정은 `manual_events`에 `{"date": "2026-12-09", "name": "FOMC 금리 결정", "star": 3}` 형식으로 직접 넣으면 됩니다.
 
 ## 동작 방식
 
 1. GitHub Actions가 평일 한국시간 오전 7시에 `scripts/build.py`를 실행합니다.
-2. 스크립트가 데이터를 받아 `docs/index.html`을 만듭니다.
-3. 만들어진 `docs` 폴더가 GitHub Pages로 배포됩니다.
+2. 데이터를 받아 `data/history/<미국장 날짜>.json`으로 저장소에 커밋합니다.
+3. 저장된 기록 전체로 `docs/index.html`과 `docs/archive/`를 만들어 GitHub Pages에 배포합니다.
 
-## 데이터 출처
+## 경제지표 일정 켜기 (선택, 무료)
 
-| 항목 | 출처 |
-|---|---|
-| 지수 종가 | Stooq 일별 CSV |
-| 국채 금리 | FRED(세인트루이스 연준) 일별 CSV |
-| 연준 발표 | 연준 공식 RSS |
+1. https://fredaccount.stlouisfed.org/apikeys 에서 무료 API 키를 발급받습니다.
+2. 저장소 Settings → Secrets and variables → Actions → **New repository secret**
+3. 이름 `FRED_API_KEY`, 값에 발급받은 키를 넣고 저장합니다.
 
-Stooq 이용 조건은 직접 확인해 주세요. 문제가 있으면 `scripts/build.py`의 `fetch_index`만 다른 제공처로 바꾸면 됩니다.
+키가 없어도 나머지 섹션은 그대로 동작합니다.
 
 ## 로컬에서 화면만 확인하기
 
@@ -24,11 +45,6 @@ Stooq 이용 조건은 직접 확인해 주세요. 문제가 있으면 `scripts/
 python scripts/build.py --demo
 ```
 
-네트워크 없이 샘플 데이터로 `docs/index.html`을 만듭니다.
-
-## 처음 한 번 해야 할 설정
-
-1. 저장소 Settings → Pages → Source를 **GitHub Actions**로 선택합니다.
-2. Actions 탭 → **매일 브리핑 갱신** → **Run workflow**로 첫 실행을 합니다.
+네트워크 없이 샘플 데이터 3일치로 `docs/`를 만듭니다. 샘플 기록은 `build/`에만 저장되고 커밋되지 않습니다.
 
 정보 제공용이며 투자 조언이 아닙니다.
