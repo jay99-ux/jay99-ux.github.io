@@ -230,6 +230,22 @@ def render_calendar(cal):
     return '<ul class="cal">' + "".join(rows) + '</ul><p class="note">미국 현지 날짜 기준 · 출처 FRED 발표 일정</p>'
 
 
+def render_headline(h):
+    if not h:
+        return ""
+    meta = []
+    if h.get("note"):
+        meta.append(escape(h["note"]))
+    if h.get("source"):
+        meta.append(escape(h["source"]))
+    return (
+        '<div class="headline"><span class="htag">' + escape(h.get("tag", "")) + "</span>"
+        '<p class="htext">' + link(h["text"], h.get("link", "")) + "</p>"
+        + ('<span class="hmeta">' + " · ".join(meta) + "</span>" if meta else "")
+        + "</div>"
+    )
+
+
 # ---------------------------------------------------------------- 페이지
 
 def page(d, root, prev_date=None, next_date=None, is_latest=False):
@@ -276,6 +292,7 @@ def page(d, root, prev_date=None, next_date=None, is_latest=False):
         '<header><div class="label">US Market Morning Brief</div><h1>미국장 모닝 브리핑</h1>'
         '<div class="asof"><b>' + kdate(md) + "</b> 미국장 · 자동 갱신 " + escape(gen) + "</div>"
         '<nav class="pager">' + "".join(nav) + "</nav></header>"
+        + render_headline(d.get("headline"))
         + summary_html + body
         + "<footer><p>정보 제공용이며 투자 조언이 아닙니다. 시세는 Yahoo Finance 차트 데이터(대체: FRED), 금리와 지표 일정은 FRED, "
         "연준 발표는 연준 공식 RSS, 뉴스는 각 언론사 RSS에서 가져옵니다. 데이터는 지연되거나 틀릴 수 있습니다.</p></footer>"
@@ -292,7 +309,9 @@ def archive_index(entries, root="../"):
         for name in ("S&P 500", "나스닥 종합", "다우존스"):
             i = idx.get(name)
             cells += '<span class="' + (sign(i["pct"]) if i else "flat") + '">' + (pct(i["pct"]) if i else "–") + "</span>"
-        rows.append('<li><a href="' + md + '.html">' + kdate(md) + "</a>" + cells + "</li>")
+        h = d.get("headline") or {}
+        sub = '<span class="ah">' + escape(h["text"]) + "</span>" if h.get("text") else ""
+        rows.append('<li><span class="ad"><a href="' + md + '.html">' + kdate(md) + "</a>" + sub + "</span>" + cells + "</li>")
     return (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'

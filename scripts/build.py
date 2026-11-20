@@ -11,6 +11,7 @@
     python scripts/build.py --demo   # 네트워크 없이 샘플 데이터로 화면만 확인 (기록은 build/ 에만 저장)
 """
 import json
+import os
 import random
 import shutil
 import sys
@@ -18,6 +19,7 @@ from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
+import headline
 import render
 import sources
 
@@ -36,6 +38,9 @@ def collect():
     data["fed"] = sources.fed(CONFIG["fed_feeds"])
     data["calendar"] = sources.calendar(CONFIG)
     data["market_date"] = market_date(data, now)
+    data["headline"] = headline.pick(
+        data["news"], data["stocks"], CONFIG["stocks"], os.environ.get("HEADLINE", "")
+    ) or headline.fallback(data["indices"])
     return data
 
 
@@ -70,7 +75,7 @@ def demo_data(day, seed):
     levels = [52200, 7520, 25060, 2450]
     macro_levels = [68.4, 4120, 1452.3, 99.8, 17.2, 98500]
     gen = datetime.fromisoformat(day + "T22:40:00+00:00")
-    return {
+    data = {
         "generated_at": gen.isoformat(),
         "market_date": day,
         "indices": fake(CONFIG["indices"], lambda n: levels[n % len(levels)], 0.008),
@@ -95,6 +100,10 @@ def demo_data(day, seed):
             {"date": (date.fromisoformat(day) + timedelta(days=5)).isoformat(), "name": "FOMC 금리 결정", "star": 3},
         ]},
     }
+    data["news"][0]["title"] = "Nvidia shares jump after earnings beat estimates and strong data center guidance"
+    data["news"][1]["title"] = "Nvidia results lift chip stocks as AI spending holds up"
+    data["headline"] = headline.pick(data["news"], data["stocks"], CONFIG["stocks"]) or headline.fallback(data["indices"])
+    return data
 
 
 # ---------------------------------------------------------------- 출력

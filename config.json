@@ -20,14 +20,14 @@
     {"name": "부동산", "symbol": "XLRE"}
   ],
   "stocks": [
-    {"name": "엔비디아", "symbol": "NVDA"},
-    {"name": "애플", "symbol": "AAPL"},
-    {"name": "마이크로소프트", "symbol": "MSFT"},
-    {"name": "알파벳", "symbol": "GOOGL"},
-    {"name": "아마존", "symbol": "AMZN"},
-    {"name": "메타", "symbol": "META"},
-    {"name": "브로드컴", "symbol": "AVGO"},
-    {"name": "테슬라", "symbol": "TSLA"}
+    {"name": "엔비디아", "symbol": "NVDA", "aliases": ["Nvidia"]},
+    {"name": "애플", "symbol": "AAPL", "aliases": ["Apple", "iPhone"]},
+    {"name": "마이크로소프트", "symbol": "MSFT", "aliases": ["Microsoft"]},
+    {"name": "알파벳", "symbol": "GOOGL", "aliases": ["Alphabet", "Google"]},
+    {"name": "아마존", "symbol": "AMZN", "aliases": ["Amazon"]},
+    {"name": "메타", "symbol": "META", "aliases": ["Meta", "Facebook"]},
+    {"name": "브로드컴", "symbol": "AVGO", "aliases": ["Broadcom"]},
+    {"name": "테슬라", "symbol": "TSLA", "aliases": ["Tesla", "Musk"]}
   ],
   "macro": [
     {"name": "WTI 유가", "symbol": "CL=F", "unit": "$", "digits": 2},

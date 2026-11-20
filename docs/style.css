@@ -128,3 +128,12 @@ footer { border-top: 1px solid var(--line); padding-top: 18px; font-size: 13px; 
   .archive li { grid-template-columns: minmax(0, 1fr) 64px 64px 64px; gap: 6px; font-size: 13px; }
   .pager { font-size: 12.5px; }
 }
+
+/* 오늘의 핵심 이슈 */
+.headline { background: var(--fg); color: var(--bg); padding: 18px 22px; border-radius: 4px; display: flex; flex-direction: column; gap: 6px; }
+.headline a { color: inherit; }
+.htag { align-self: flex-start; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; padding: 2px 8px; border: 1px solid currentColor; border-radius: 2px; opacity: 0.85; }
+.htext { font-size: clamp(18px, 3.4vw, 23px); font-weight: 700; line-height: 1.4; letter-spacing: -0.01em; }
+.hmeta { font-size: 13px; opacity: 0.75; font-family: var(--font-mono); }
+.archive .ad { display: flex; flex-direction: column; gap: 2px; min-width: 0; text-align: left; }
+.archive .ah { font-family: var(--font-body); font-size: 12.5px; color: var(--muted); text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
