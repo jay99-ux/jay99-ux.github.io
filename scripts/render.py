@@ -2,6 +2,8 @@
 from datetime import date, datetime, timedelta, timezone
 from html import escape
 
+import signals
+
 KST = timezone(timedelta(hours=9))
 WEEKDAYS = "월화수목금토일"
 
@@ -79,7 +81,7 @@ def summary_lines(d):
             + pct(top["pct"]) + "</b>"
         )
     ten = next((y for y in d.get("yields") or [] if y["name"] == "10년물"), None)
-    macro = {m["name"]: m for m in d.get("macro") or []}
+    macro = {m["name"]: m for m in (d.get("macro") or []) + (d.get("korea") or [])}
     tail = []
     if ten:
         tail.append("10년물 금리 " + format(ten["value"], ".2f") + '% (<b class="' + sign(ten["bp"]) + '">' + format(ten["bp"], "+d") + "bp</b>)")
@@ -159,6 +161,73 @@ def render_macro(items):
             + spark(it.get("spark"), c) + "</div>"
         )
     return '<div class="tiles">' + "".join(tiles) + '</div><p class="note">유가·금은 근월물 선물, 기준 시각은 수집 시점</p>'
+
+
+def _val(it):
+    digits = str(it.get("digits", 2))
+    unit = it.get("unit", "")
+    val = format(it["close"], ",." + digits + "f")
+    return "$" + val if unit == "$" else val + unit if unit else val
+
+
+def render_korea(d):
+    items = d.get("korea") or []
+    if not items:
+        return empty("한국장 관련 데이터를 가져오지 못했습니다.")
+    note = signals.korea_note(d)
+    tiles = []
+    for it in items:
+        c = sign(it["pct"])
+        tiles.append(
+            '<div class="tile"><span class="name">' + escape(it["name"]) + "</span>"
+            '<span class="px">' + escape(_val(it)) + '</span><span class="v ' + c + '">' + pct(it["pct"]) + "</span>"
+            + spark(it.get("spark"), c)
+            + ('<span class="role">' + escape(it["role"]) + "</span>" if it.get("role") else "") + "</div>"
+        )
+    return (
+        ('<p class="knote">' + escape(note) + "</p>" if note else "")
+        + '<div class="tiles t5">' + "".join(tiles) + "</div>"
+        + '<p class="note">미국장 마감 기준 참고 신호이며, 국내 개장 흐름과 다를 수 있습니다.</p>'
+    )
+
+
+def _cell(v):
+    if v is None:
+        return '<td class="flat">–</td>'
+    return '<td class="' + sign(v) + '">' + format(v, "+.1f") + "%</td>"
+
+
+def render_perf(d, symbols):
+    rows, fx = signals.performance(d, symbols)
+    if not rows:
+        return empty("기간별 성과를 계산할 데이터가 없습니다.")
+    trs = "".join(
+        "<tr><th>" + escape(r["name"]) + "</th>" + _cell(r["w1"]) + _cell(r["m1"]) + _cell(r["ytd"])
+        + _cell(r["ytd_krw"]).replace("<td", '<td data-krw="1"', 1) + "</tr>"
+        for r in rows
+    )
+    fx_txt = ("같은 기간 달러/원 " + format(fx, "+.1f") + "% 변동을 반영한 값") if fx is not None else "환율 데이터가 없어 계산하지 못함"
+    return (
+        '<div class="card tablewrap"><table class="perf"><thead><tr><th>자산</th><th>1주</th><th>1개월</th>'
+        "<th>연초 대비</th><th>연초 대비<br><small>원화 기준</small></th></tr></thead><tbody>" + trs + "</tbody></table></div>"
+        '<p class="note">달러 기준 가격 수익률(배당 제외). 원화 기준은 ' + escape(fx_txt) + "입니다.</p>"
+    )
+
+
+def render_risk(d):
+    items = signals.risk(d)
+    if not items:
+        return empty("리스크 지표를 가져오지 못했습니다.")
+    warn_n = sum(1 for r in items if r["level"] >= 2)
+    head = ("지표 " + str(len(items)) + "개 중 경계 이상 " + str(warn_n) + "개") if warn_n else "모든 지표가 보통 이하 수준이에요"
+    tiles = "".join(
+        '<div class="risk l' + str(r["level"]) + '"><span class="name">' + escape(r["name"]) + "</span>"
+        '<span class="rv">' + escape(r["value"]) + '</span><span class="badge">' + escape(r["label"]) + "</span>"
+        '<span class="rule">' + escape(r["rule"]) + "</span></div>"
+        for r in items
+    )
+    return ('<p class="knote">' + escape(head) + '</p><div class="riskgrid">' + tiles + "</div>"
+            '<p class="note">관례적으로 쓰이는 기준선으로 단순 분류한 참고 지표입니다. 투자 판단의 근거로 단독 사용하지 마세요.</p>')
 
 
 def render_yields(items):
@@ -248,7 +317,7 @@ def render_headline(h):
 
 # ---------------------------------------------------------------- 페이지
 
-def page(d, root, prev_date=None, next_date=None, is_latest=False):
+def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=None):
     """root: style.css 까지의 상대 경로 접두어 ('' 또는 '../')."""
     md = d.get("market_date", "")
     gen = d.get("generated_at", "")
@@ -273,14 +342,17 @@ def page(d, root, prev_date=None, next_date=None, is_latest=False):
         if summary else ""
     )
     sections = [
+        ("한국장 연결고리", render_korea(d)),
         ("지수 마감", render_indices(d.get("indices"))),
         ("섹터별 등락", render_sectors(d.get("sectors"))),
         ("주요 종목", render_stocks(d.get("stocks"))),
         ("원자재 · 환율 · 변동성", render_macro(d.get("macro"))),
         ("국채 금리 변동", render_yields(d.get("yields"))),
+        ("기간별 성과", render_perf(d, perf_symbols or [])),
         ("주요 뉴스", render_news(d.get("news"))),
         ("앞으로 7일 경제지표 일정", render_calendar(d.get("calendar"))),
         ("연준 발표", render_fed(d.get("fed"))),
+        ("리스크 신호판", render_risk(d)),
     ]
     body = "".join("<section><h2>" + escape(t) + "</h2>" + h + "</section>" for t, h in sections)
     title = "미국장 모닝 브리핑 " + md
@@ -295,7 +367,7 @@ def page(d, root, prev_date=None, next_date=None, is_latest=False):
         + render_headline(d.get("headline"))
         + summary_html + body
         + "<footer><p>정보 제공용이며 투자 조언이 아닙니다. 시세는 Yahoo Finance 차트 데이터(대체: FRED), 금리와 지표 일정은 FRED, "
-        "연준 발표는 연준 공식 RSS, 뉴스는 각 언론사 RSS에서 가져옵니다. 데이터는 지연되거나 틀릴 수 있습니다.</p></footer>"
+        "하이일드 스프레드는 ICE BofA 지수(FRED), 연준 발표는 연준 공식 RSS, 뉴스는 각 언론사 RSS에서 가져옵니다. 데이터는 지연되거나 틀릴 수 있습니다.</p></footer>"
         "</div></body></html>"
     )
 

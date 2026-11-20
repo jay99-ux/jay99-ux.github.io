@@ -32,25 +32,49 @@ def warn(label, exc):
 
 # ---------------------------------------------------------------- 가격 데이터
 
+def _base(points, cutoff):
+    """cutoff 날짜(포함) 이전의 마지막 종가."""
+    prior = [v for d, v in points if d <= cutoff]
+    return prior[-1] if prior else None
+
+
+def _ret(last, base):
+    return (last / base - 1) * 100 if base else None
+
+
 def _summarize(points):
-    """[(date, close), ...] 날짜 오름차순 → 종가·전일 대비·최근 추이."""
+    """[(YYYY-MM-DD, close), ...] 날짜 오름차순 → 종가·전일 대비·기간 수익률·추세 지표."""
     if len(points) < 2:
         raise ValueError("종가 데이터가 2일치 미만입니다")
     (d1, close), (_, before) = points[-1], points[-2]
-    return {
+    last = date.fromisoformat(d1)
+    year = [(d, v) for d, v in points if d > (last - timedelta(days=365)).isoformat()]
+    closes = [v for _, v in points]
+    out = {
         "date": d1,
         "close": close,
         "change": close - before,
         "pct": (close - before) / before * 100 if before else 0.0,
-        "spark": [round(v, 4) for _, v in points[-22:]],
+        "spark": [round(v, 4) for v in closes[-22:]],
+        "perf": {
+            "w1": _ret(close, _base(points, (last - timedelta(days=7)).isoformat())),
+            "m1": _ret(close, _base(points, (last - timedelta(days=30)).isoformat())),
+            "ytd": _ret(close, _base(points, date(last.year - 1, 12, 31).isoformat())),
+        },
     }
+    if len(year) >= 200:
+        hi = max(v for _, v in year)
+        ma200 = sum(closes[-200:]) / 200
+        out.update({"hi52": hi, "dd52": (close / hi - 1) * 100, "ma200": ma200,
+                    "vs200": (close / ma200 - 1) * 100})
+    return out
 
 
 def yahoo_daily(symbol):
     url = (
         "https://query1.finance.yahoo.com/v8/finance/chart/"
         + urllib.parse.quote(symbol, safe="")
-        + "?range=2mo&interval=1d"
+        + "?range=1y&interval=1d"
     )
     res = json.loads(get(url))["chart"]["result"][0]
     offset = res["meta"].get("gmtoffset", 0)
@@ -64,7 +88,7 @@ def yahoo_daily(symbol):
     return _summarize(sorted(by_date.items()))
 
 
-def fred_series(series, days=70):
+def fred_series(series, days=400):
     start = (datetime.now(timezone.utc) - timedelta(days=days)).strftime("%Y-%m-%d")
     text = get("https://fred.stlouisfed.org/graph/fredgraph.csv?id=" + series + "&cosd=" + start)
     reader = csv.reader(io.StringIO(text))
@@ -98,8 +122,21 @@ def quote(item):
         except Exception as exc2:  # noqa: BLE001
             warn(item["name"] + " (FRED)", exc2)
             return None
-    data.update({k: v for k, v in item.items() if k in ("name", "symbol", "unit", "digits")})
+    data.update({k: v for k, v in item.items() if k in ("name", "symbol", "unit", "digits", "role")})
     return data
+
+
+def fred_level(series):
+    """최근 값과 전일 대비 변화(하이일드 스프레드 등)."""
+    try:
+        points = fred_series(series, days=60)
+        if len(points) < 2:
+            raise ValueError("데이터가 2일치 미만입니다")
+        (d1, v1), (_, v0) = points[-1], points[-2]
+        return {"date": d1, "value": v1, "change": v1 - v0}
+    except Exception as exc:  # noqa: BLE001
+        warn(series, exc)
+        return None
 
 
 def yield_row(item):
