@@ -43,7 +43,7 @@ def collect():
     data["calendar"] = sources.calendar(CONFIG)
     data["market_date"] = market_date(data, now)
     data["headline"] = headline.pick(
-        data["news"], data["stocks"], CONFIG["stocks"], os.environ.get("HEADLINE", "")
+        data["news"], data["stocks"], CONFIG["stocks"], os.environ.get("HEADLINE", ""), data["indices"]
     ) or headline.fallback(data["indices"])
     return data
 

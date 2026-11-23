@@ -252,6 +252,11 @@ def calendar(cfg):
         )
         try:
             rows = json.loads(get("https://api.stlouisfed.org/fred/releases/dates?" + params))["release_dates"]
+            count = {}
+            for row in rows:
+                count[row.get("release_name", "")] = count.get(row.get("release_name", ""), 0) + 1
+            # 매일 날짜가 잡히는 발표(일별 갱신 자료)는 '일정'이 아니므로 제외
+            rows = [r for r in rows if count[r.get("release_name", "")] <= 3]
             for row in rows:
                 name = row.get("release_name", "")
                 for rule in cfg["calendar_releases"]:

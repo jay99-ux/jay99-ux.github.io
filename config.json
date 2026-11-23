@@ -62,7 +62,6 @@
   ],
   "calendar_days": 7,
   "calendar_releases": [
-    {"match": "FOMC Press Release", "name": "FOMC 금리 결정", "star": 3},
     {"match": "Employment Situation", "name": "고용보고서(비농업 고용·실업률)", "star": 3},
     {"match": "Consumer Price Index", "name": "소비자물가지수(CPI)", "star": 3},
     {"match": "Personal Income and Outlays", "name": "개인소득·지출(PCE 물가)", "star": 3},
@@ -76,6 +75,11 @@
     {"match": "Surveys of Consumers", "name": "미시간대 소비자심리", "star": 1}
   ],
   "manual_events": [
-    {"_예시": "직접 추가할 일정은 아래 형식으로 넣으세요. date는 미국 날짜입니다.", "date": "", "name": ""}
+    {"_설명": "FOMC는 연준 공식 일정(federalreserve.gov/monetarypolicy/fomccalendars.htm)의 결정 발표일(회의 둘째 날)입니다. 그 밖의 일정도 같은 형식으로 추가하세요. date는 미국 날짜입니다."},
+    {"date": "2026-12-09", "name": "FOMC 금리 결정", "star": 3},
+    {"date": "2027-01-27", "name": "FOMC 금리 결정", "star": 3},
+    {"date": "2027-03-17", "name": "FOMC 금리 결정", "star": 3},
+    {"date": "2027-04-28", "name": "FOMC 금리 결정", "star": 3},
+    {"date": "2027-06-09", "name": "FOMC 금리 결정", "star": 3}
   ]
 }
