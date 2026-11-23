@@ -116,7 +116,7 @@ def render_indices(items):
             end = "</a>"
         cards.append(
             "<" + tag + ' class="card idx"><span class="name">' + escape(it["name"])
-            + ('<span class="go">차트 ↗</span>' if chart else "") + "</span>"
+            + ('<span class="go"><span class="gt">차트 </span>↗</span>' if chart else "") + "</span>"
             '<span class="level">' + format(it["close"], ",.2f") + "</span>"
             '<span class="chg ' + c + '"><span>' + pct(it["pct"]) + "</span><span>"
             + format(it["change"], "+,.2f") + "</span></span>"
@@ -154,7 +154,7 @@ def render_stocks(items):
         url = "https://kr.tradingview.com/chart/?symbol=" + quote_url(chart, safe="")
         tiles.append(
             '<a class="tile link" href="' + escape(url, quote=True) + '" target="_blank" rel="noopener noreferrer" title="TradingView 차트 열기">'
-            '<span class="name"><span>' + escape(it["name"]) + ' <small>' + escape(it["symbol"]) + '</small></span><span class="go">차트 ↗</span></span>'
+            '<span class="name"><span>' + escape(it["name"]) + ' <small>' + escape(it["symbol"]) + '</small></span><span class="go"><span class="gt">차트 </span>↗</span></span>'
             '<span class="px">$' + format(it["close"], ",.2f") + '</span><span class="v ' + c + '">' + pct(it["pct"]) + "</span></a>"
         )
     return '<div class="tiles">' + "".join(tiles) + "</div>"
@@ -180,7 +180,7 @@ def render_macro(items):
             url = "https://kr.tradingview.com/chart/?symbol=" + quote_url(chart, safe="")
             open_tag = ('<a class="tile link" href="' + escape(url, quote=True)
                         + '" target="_blank" rel="noopener noreferrer" title="TradingView 차트 열기">')
-            name = '<span class="name"><span>' + escape(it["name"]) + '</span><span class="go">차트 ↗</span></span>'
+            name = '<span class="name"><span>' + escape(it["name"]) + '</span><span class="go"><span class="gt">차트 </span>↗</span></span>'
             close_tag = "</a>"
         else:
             open_tag, close_tag = '<div class="tile">', "</div>"

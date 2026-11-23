@@ -185,3 +185,10 @@ a.tile.link:hover .go { opacity: 1; }
 
 /* 제목 옆 작성자 */
 .byline { font-size: 0.4em; font-weight: 500; color: var(--muted); letter-spacing: 0; margin-left: 0.6em; white-space: nowrap; }
+
+/* 카드 이름은 항상 한 줄 (길면 말줄임) */
+.tile .name > span:first-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+@media (max-width: 560px) {
+  .tile.link .name small { display: none; }   /* 모바일: 티커 숨김 */
+  .tile .go .gt { display: none; }            /* 모바일: "차트" 글자 대신 화살표만 */
+}
