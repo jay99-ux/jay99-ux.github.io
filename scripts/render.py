@@ -265,8 +265,16 @@ def render_yields(items):
     if "2년물" in by and "10년물" in by:
         spread = (by["10년물"]["value"] - by["2년물"]["value"]) * 100
         extra = " · 10년물−2년물 금리차 " + format(spread, "+.0f") + "bp"
-    return ('<div class="card yields">' + "".join(rows) + '</div><p class="note">기준일 '
-            + escape(items[0]["date"]) + " (FRED 일별 기준, 하루 늦게 반영될 수 있음)" + extra + "</p>")
+    groups = {}
+    for it in items:
+        key = (it.get("src", "FRED"), it["date"])
+        groups.setdefault(key, []).append(it["name"].replace("년물", ""))
+    basis = " · ".join(
+        "·".join(names) + "년물 " + d + (" 마감(CBOE)" if src == "CBOE" else " (FRED, 하루 늦게 반영)")
+        for (src, d), names in groups.items()
+    )
+    return ('<div class="card yields">' + "".join(rows) + '</div><p class="note">기준: '
+            + escape(basis) + escape(extra) + "</p>")
 
 
 def render_news(items):
@@ -314,6 +322,14 @@ def render_calendar(cal):
             + '</span><span class="star s' + str(e["star"]) + '" title="중요도">' + stars + "</span></li>"
         )
     return '<ul class="cal">' + "".join(rows) + '</ul><p class="note">미국 현지 날짜 기준 · 출처 FRED 발표 일정</p>'
+
+
+def render_health(health):
+    problems = (health or {}).get("problems") or []
+    if not problems:
+        return ""
+    return ('<div class="alert" role="status"><b>일부 데이터를 가져오지 못했습니다.</b> '
+            + escape(" · ".join(problems)) + "</div>")
 
 
 def render_headline(h):
@@ -413,6 +429,7 @@ def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=
         '<header><div class="label">US Market Morning Brief</div><h1>미국장 모닝 브리핑<span class="byline">by Jay</span></h1>'
         '<div class="asof"><b>' + kdate(md) + "</b> 미국장 · 자동 갱신 " + escape(gen) + "</div>"
         '<nav class="pager">' + "".join(nav) + "</nav></header>"
+        + render_health(d.get("health"))
         + render_headline(d.get("headline"))
         + summary_html + body
         + "<footer><p>정보 제공용이며 투자 조언이 아닙니다. 시세는 Yahoo Finance 차트 데이터(대체: FRED), 금리와 지표 일정은 FRED, "

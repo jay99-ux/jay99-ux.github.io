@@ -58,6 +58,51 @@ def market_date(data, now):
     return (now - timedelta(hours=5)).strftime("%Y-%m-%d")  # 미국 동부 날짜 근사치
 
 
+def check(data, now):
+    """빠진 데이터 점검. problems 가 있으면 사이트에 안내를 띄우고, Actions 실행을 '실패'로 표시해 메일 알림을 받게 함."""
+    problems, warnings = [], []
+
+    def missing(key):
+        got = {q["name"] for q in data.get(key) or []}
+        return [i["name"] for i in CONFIG[key] if i["name"] not in got]
+
+    miss = missing("indices")
+    if miss:
+        problems.append("지수 " + ", ".join(miss))
+    # (항목, 이름, 이 개수 이상 빠지면 '문제') — 그보다 적으면 '주의'만
+    for key, label, limit in (("sectors", "섹터", 4), ("stocks", "종목", 3), ("macro", "원자재·환율", 3)):
+        miss = missing(key)
+        if miss:
+            (problems if len(miss) >= limit else warnings).append(label + " " + ", ".join(miss))
+    got_y = {y["name"] for y in data.get("yields") or []}
+    miss = [y["name"] for y in CONFIG["yields"] if y["name"] not in got_y]
+    if miss:
+        (problems if len(miss) == len(CONFIG["yields"]) else warnings).append("금리 " + ", ".join(miss))
+    if not data.get("news"):
+        warnings.append("뉴스")
+    fred_used = [q["name"] for q in data.get("indices") or [] if q.get("src") == "FRED"]
+    if fred_used:
+        warnings.append("Yahoo 실패로 FRED 사용: " + ", ".join(fred_used))
+    try:
+        age = (now.date() - date.fromisoformat(data["market_date"])).days
+        if age > 5:
+            problems.append("시세가 " + str(age) + "일 전(" + data["market_date"] + ") 데이터에 멈춰 있음")
+    except ValueError:
+        pass
+    return {"problems": problems, "warnings": warnings}
+
+
+def report(health):
+    for w in health["warnings"]:
+        print("[점검-주의] " + w, file=sys.stderr)
+    for p in health["problems"]:
+        print("[점검-문제] " + p, file=sys.stderr)
+    out = os.environ.get("GITHUB_OUTPUT")
+    if out:
+        with open(out, "a", encoding="utf-8") as fh:
+            fh.write("problems=" + " / ".join(health["problems"]).replace("\n", " ") + "\n")
+
+
 # ---------------------------------------------------------------- 샘플 데이터
 
 def demo_data(day, seed):
@@ -167,6 +212,8 @@ def main():
     if not has_market:
         print("시세 데이터를 하나도 받지 못했습니다. 기록을 저장하지 않고 이전 페이지를 유지합니다.", file=sys.stderr)
         sys.exit(1)
+    data["health"] = check(data, datetime.now(timezone.utc))
+    report(data["health"])
     history = ROOT / "data" / "history"
     history.mkdir(parents=True, exist_ok=True)
     (history / (data["market_date"] + ".json")).write_text(
