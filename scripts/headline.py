@@ -20,10 +20,29 @@ TOPICS = [
     ("AI", 1, r"\bAI\b|artificial intelligence|data center|chips?"),
 ]
 MOVE = r"record|plunge|plummet|soar|surge|tumble|sink|rally|sell-?off|crash|jump|slump|rout"
-NOISE = r"\?|^how |should you|opinion|\bI\b|\bmy\b|retire|my wife|my husband|personal finance|quiz|podcast"
+NOISE = (r"\?|^how |should you|opinion|\bI\b|\bmy\b|retire|my wife|my husband|personal finance|quiz|podcast"
+         r"|social security|medicare|medicaid|hospice|nursing home|health benefits|recipe|travel|wedding")
+MARKET = (r"stocks?|shares|equit|market|wall street|S&P|nasdaq|\bdow\b|index|futures|investors?|treasur"
+          r"|yields?|bonds?|\boil\b|crude|\bgold\b|dollar|currenc|bitcoin|crypto|sector|valuation|bubble"
+          r"|selloff|sell-off|volatility|\bVIX\b|IPO|earnings|economy|economic|recession|GDP|bank")
 
 STOP = {"the", "and", "for", "with", "from", "that", "this", "after", "over", "into", "stock", "stocks",
         "market", "markets", "says", "said", "will", "than", "what", "more", "shares", "amid"}
+
+
+def relevant(title, config_stocks):
+    """증시와 관련 있는 헤드라인인지 (칼럼·생활경제 기사는 제외)."""
+    if re.search(NOISE, title, re.I):
+        return False
+    if re.search(MARKET, title, re.I) or re.search(MOVE, title, re.I):
+        return True
+    if any(re.search(pat, title, re.I) for _, _, pat in TOPICS):
+        return True
+    for cs in config_stocks:
+        for a in cs.get("aliases", []):
+            if re.search(r"\b" + re.escape(a) + r"\b", title):
+                return True
+    return False
 
 
 def _words(title):
