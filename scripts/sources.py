@@ -15,7 +15,7 @@ from datetime import date, datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 
 UA = {
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) us-morning-brief/2.0 (+https://github.com/jay99-ux/us-morning-brief)"
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) us-morning-brief/2.0 (+https://github.com/jay99-ux/jay99-ux.github.io)"
 }
 ET_TZ = timezone(timedelta(hours=-5))  # 미국 동부 표준시 근사치(일정 창 계산용)
 
