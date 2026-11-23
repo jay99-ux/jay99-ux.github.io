@@ -115,7 +115,7 @@ def render_indices(items):
             tag = 'a href="' + escape(url, quote=True) + '" target="_blank" rel="noopener noreferrer" title="TradingView 차트 열기"'
             end = "</a>"
         cards.append(
-            "<" + tag + ' class="card idx"><span class="name">' + escape(it["name"])
+            "<" + tag + ' class="card idx"><span class="name"><span>' + escape(it["name"]) + "</span>"
             + ('<span class="go"><span class="gt">차트 </span>↗</span>' if chart else "") + "</span>"
             '<span class="level">' + format(it["close"], ",.2f") + "</span>"
             '<span class="chg ' + c + '"><span>' + pct(it["pct"]) + "</span><span>"
