@@ -1,7 +1,7 @@
 # us-morning-brief
 
 매일 아침 전날 미국장 흐름을 한 페이지에 모아 보여주는 정적 웹페이지입니다.
-사이트: https://jay99-ux.github.io/us-morning-brief/
+사이트: https://jay99-ux.github.io/
 
 ## 담긴 내용
 
