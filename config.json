@@ -46,8 +46,8 @@
   "risk": {"high_yield_fred": "BAMLH0A0HYM2"},
   "yields": [
     {"name": "2년물", "fred": "DGS2"},
-    {"name": "10년물", "fred": "DGS10"},
-    {"name": "30년물", "fred": "DGS30"}
+    {"name": "10년물", "symbol": "^TNX", "fred": "DGS10"},
+    {"name": "30년물", "symbol": "^TYX", "fred": "DGS30"}
   ],
   "news_feeds": [
     {"source": "CNBC", "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html"},

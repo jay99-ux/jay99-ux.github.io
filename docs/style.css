@@ -202,3 +202,7 @@ a.tile.link:hover .go { opacity: 1; }
   .idx { padding: 14px 12px; }
   .idx .chg { font-size: 12px; gap: 5px; }
 }
+
+/* 데이터 누락 안내 */
+.alert { background: #fff4e0; color: #7a4a00; border: 1px solid #f0c27a; border-radius: 4px; padding: 10px 14px; font-size: 13.5px; }
+@media (prefers-color-scheme: dark) { .alert { background: #3a2a10; color: #ffd68a; border-color: #7a5a20; } }

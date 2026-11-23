@@ -140,12 +140,23 @@ def fred_level(series):
 
 
 def yield_row(item):
+    """국채 금리. symbol(Yahoo, CBOE 금리지수)이 있으면 당일 값, 없거나 실패하면 FRED(하루 늦음)."""
+    if item.get("symbol"):
+        try:
+            q = yahoo_daily(item["symbol"])
+            v1, v0 = q["close"], q["close"] - q["change"]
+            if v1 > 20:  # 예전 표기(금리×10)로 오는 경우
+                v1, v0 = v1 / 10, v0 / 10
+            return {"name": item["name"], "date": q["date"], "value": v1,
+                    "bp": round((v1 - v0) * 100), "src": "CBOE"}
+        except Exception as exc:  # noqa: BLE001
+            warn(item["name"] + " (Yahoo)", exc)
     try:
         points = fred_series(item["fred"], days=45)
         if len(points) < 2:
             raise ValueError("금리 데이터가 2일치 미만입니다")
         (d1, v1), (_, v0) = points[-1], points[-2]
-        return {"name": item["name"], "date": d1, "value": v1, "bp": round((v1 - v0) * 100)}
+        return {"name": item["name"], "date": d1, "value": v1, "bp": round((v1 - v0) * 100), "src": "FRED"}
     except Exception as exc:  # noqa: BLE001
         warn(item["name"], exc)
         return None
