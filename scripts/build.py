@@ -35,7 +35,10 @@ def collect():
         data[key] = [q for q in (sources.quote(i) for i in CONFIG[key]) if q]
     data["hy"] = sources.fred_level(CONFIG["risk"]["high_yield_fred"])
     data["yields"] = [y for y in (sources.yield_row(i) for i in CONFIG["yields"]) if y]
-    data["news"] = sources.news(CONFIG["news_feeds"], CONFIG.get("news_limit", 12), CONFIG.get("news_hours", 30), now)
+    data["news"] = sources.news(
+        CONFIG["news_feeds"], CONFIG.get("news_limit", 12), CONFIG.get("news_hours", 30), now,
+        keep=lambda title: headline.relevant(title, CONFIG["stocks"]),
+    )
     data["fed"] = sources.fed(CONFIG["fed_feeds"])
     data["calendar"] = sources.calendar(CONFIG)
     data["market_date"] = market_date(data, now)

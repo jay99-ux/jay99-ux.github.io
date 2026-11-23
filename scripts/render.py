@@ -63,7 +63,7 @@ def summary_lines(d):
         ups = sum(1 for i in main if i["pct"] > 0)
         mood = "일제히 상승" if ups == len(main) else "일제히 하락" if ups == 0 else "혼조"
         parts = ", ".join(escape(i["name"]) + ' <b class="' + sign(i["pct"]) + '">' + pct(i["pct"]) + "</b>" for i in main)
-        lines.append("주요 지수는 " + mood + "로 마감했어요. " + parts)
+        lines.append("주요 지수는 " + mood + ("로" if mood == "혼조" else "으로") + " 마감했어요. " + parts)
     sec = d.get("sectors") or []
     if sec:
         s = sorted(sec, key=lambda x: x["pct"])

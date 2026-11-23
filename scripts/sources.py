@@ -178,7 +178,8 @@ def rss_items(url):
     return [i for i in out if i["title"]]
 
 
-def news(feeds, limit, hours, now):
+def news(feeds, limit, hours, now, keep=None):
+    """keep: 헤드라인을 남길지 판단하는 함수(없으면 모두 남김)."""
     cutoff = now - timedelta(hours=hours)
     per_source = max(3, limit // 2)
     seen, pool = set(), []
@@ -192,6 +193,8 @@ def news(feeds, limit, hours, now):
         for it in items:
             key = it["title"].lower()
             if key in seen or (it["time"] and it["time"] < cutoff):
+                continue
+            if keep and not keep(it["title"]):
                 continue
             seen.add(key)
             pool.append({**it, "source": feed["source"]})
