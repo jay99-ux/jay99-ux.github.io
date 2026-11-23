@@ -79,11 +79,11 @@ def demo_data(day, seed):
                 path.append(path[-1] * (1 + drift + rnd.gauss(0, vol)))
             q = sources._summarize(list(zip(bdays, path)))  # 실제 계산 로직을 그대로 사용
             q["src"] = "demo"
-            q.update({k: v for k, v in it.items() if k in ("name", "symbol", "unit", "digits", "role")})
+            q.update({k: v for k, v in it.items() if k in ("name", "symbol", "unit", "digits", "role", "chart")})
             out.append(q)
         return out
 
-    levels = [52200, 7520, 25060, 2450]
+    levels = [7520, 25060, 52200, 2450]
     macro_levels = [68.4, 4120, 1452.3, 99.8, 17.2, 98500]
     gen = datetime.fromisoformat(day + "T22:40:00+00:00")
     data = {

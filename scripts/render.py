@@ -1,6 +1,7 @@
 """HTML 렌더링. 모든 외부 문자열은 escape 해서 넣습니다."""
 from datetime import date, datetime, timedelta, timezone
 from html import escape
+from urllib.parse import quote as quote_url
 
 import signals
 
@@ -97,19 +98,30 @@ def summary_lines(d):
 
 # ---------------------------------------------------------------- 섹션
 
+# 예전 기록(차트 정보 없이 저장된 날짜)에도 링크를 달기 위한 기본값
+TV_FALLBACK = {"^GSPC": "SP:SPX", "^IXIC": "NASDAQ:IXIC", "^DJI": "TVC:DJI", "^RUT": "TVC:RUT"}
+
+
 def render_indices(items):
     if not items:
         return empty("지수 데이터를 가져오지 못했습니다.")
     cards = []
     for it in items:
         c = sign(it["pct"])
+        chart = it.get("chart") or TV_FALLBACK.get(it.get("symbol", ""))
+        tag, end = "div", "</div>"
+        if chart:
+            url = "https://kr.tradingview.com/chart/?symbol=" + quote_url(chart, safe="")
+            tag = 'a href="' + escape(url, quote=True) + '" target="_blank" rel="noopener noreferrer" title="TradingView 차트 열기"'
+            end = "</a>"
         cards.append(
-            '<div class="card idx"><span class="name">' + escape(it["name"]) + "</span>"
+            "<" + tag + ' class="card idx"><span class="name">' + escape(it["name"])
+            + ('<span class="go">차트 ↗</span>' if chart else "") + "</span>"
             '<span class="level">' + format(it["close"], ",.2f") + "</span>"
             '<span class="chg ' + c + '"><span>' + pct(it["pct"]) + "</span><span>"
             + format(it["change"], "+,.2f") + "</span></span>"
             + spark(it.get("spark"), c)
-            + '<span class="date">' + escape(it["date"]) + " 마감</span></div>"
+            + '<span class="date">' + escape(it["date"]) + " 마감</span>" + end
         )
     return '<div class="grid4">' + "".join(cards) + "</div>"
 

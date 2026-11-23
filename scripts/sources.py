@@ -122,7 +122,7 @@ def quote(item):
         except Exception as exc2:  # noqa: BLE001
             warn(item["name"] + " (FRED)", exc2)
             return None
-    data.update({k: v for k, v in item.items() if k in ("name", "symbol", "unit", "digits", "role")})
+    data.update({k: v for k, v in item.items() if k in ("name", "symbol", "unit", "digits", "role", "chart")})
     return data
 
 

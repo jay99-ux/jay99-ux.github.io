@@ -1,10 +1,10 @@
 {
   "_설명": "보여줄 종목·피드·지표를 여기서 바꿀 수 있습니다. 심볼은 Yahoo Finance 표기를 씁니다.",
   "indices": [
-    {"name": "S&P 500", "symbol": "^GSPC", "fred": "SP500"},
-    {"name": "나스닥 종합", "symbol": "^IXIC", "fred": "NASDAQCOM"},
-    {"name": "다우존스", "symbol": "^DJI", "fred": "DJIA"},
-    {"name": "러셀 2000", "symbol": "^RUT"}
+    {"name": "S&P 500", "symbol": "^GSPC", "fred": "SP500", "chart": "SP:SPX"},
+    {"name": "나스닥 종합", "symbol": "^IXIC", "fred": "NASDAQCOM", "chart": "NASDAQ:IXIC"},
+    {"name": "다우존스", "symbol": "^DJI", "fred": "DJIA", "chart": "TVC:DJI"},
+    {"name": "러셀 2000", "symbol": "^RUT", "chart": "TVC:RUT"}
   ],
   "sectors": [
     {"name": "기술", "symbol": "XLK"},
