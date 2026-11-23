@@ -27,7 +27,11 @@
     {"name": "아마존", "symbol": "AMZN", "aliases": ["Amazon"]},
     {"name": "메타", "symbol": "META", "aliases": ["Meta", "Facebook"]},
     {"name": "브로드컴", "symbol": "AVGO", "aliases": ["Broadcom"]},
-    {"name": "테슬라", "symbol": "TSLA", "aliases": ["Tesla", "Musk"]}
+    {"name": "테슬라", "symbol": "TSLA", "aliases": ["Tesla", "Musk"]},
+    {"name": "앤트로픽", "symbol": "ANT", "aliases": ["Anthropic"]},
+    {"name": "인텔", "symbol": "INTC", "aliases": ["Intel"]},
+    {"name": "마이크론", "symbol": "MU", "aliases": ["Micron"]},
+    {"name": "버크셔 해서웨이", "symbol": "BRK-B", "aliases": ["Berkshire", "Buffett"]}
   ],
   "macro": [
     {"name": "WTI 유가", "symbol": "CL=F", "unit": "$", "digits": 2},
@@ -37,7 +41,7 @@
     {"name": "VIX 변동성", "symbol": "^VIX", "unit": "", "digits": 2, "fred": "VIXCLS"},
     {"name": "비트코인", "symbol": "BTC-USD", "unit": "$", "digits": 0}
   ],
-  "performance": ["^GSPC", "^IXIC", "^DJI", "^RUT", "NVDA", "AAPL", "MSFT", "GOOGL", "AMZN", "META", "AVGO", "TSLA", "GC=F", "BTC-USD"],
+  "performance": ["^GSPC", "^IXIC", "^DJI", "^RUT", "NVDA", "AAPL", "MSFT", "GOOGL", "AMZN", "META", "AVGO", "TSLA", "ANT", "INTC", "MU", "BRK-B", "GC=F", "BTC-USD"],
   "risk": {"high_yield_fred": "BAMLH0A0HYM2"},
   "yields": [
     {"name": "2년물", "fred": "DGS2"},

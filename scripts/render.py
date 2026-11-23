@@ -77,7 +77,7 @@ def summary_lines(d):
     if st:
         top = max(st, key=lambda x: abs(x["pct"]))
         lines.append(
-            "대형 기술주 중 가장 크게 움직인 종목은 " + escape(top["name"]) + ' <b class="' + sign(top["pct"]) + '">'
+            "주요 종목 중 가장 크게 움직인 종목은 " + escape(top["name"]) + ' <b class="' + sign(top["pct"]) + '">'
             + pct(top["pct"]) + "</b>"
         )
     ten = next((y for y in d.get("yields") or [] if y["name"] == "10년물"), None)
