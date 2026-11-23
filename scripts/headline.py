@@ -21,9 +21,11 @@ TOPICS = [
 ]
 MOVE = r"record|plunge|plummet|soar|surge|tumble|sink|rally|sell-?off|crash|jump|slump|rout"
 NOISE = (r"\?|^how |should you|opinion|\bI\b|\bmy\b|retire|my wife|my husband|personal finance|quiz|podcast"
-         r"|social security|medicare|medicaid|hospice|nursing home|health benefits|recipe|travel|wedding")
+         r"|social security|medicare|medicaid|hospice|nursing home|health benefits|recipe|travel|wedding"
+         r"|here's|here is|these \d|\d (?:dividend )?stocks? (?:to|for)|to look at|to buy now|bargains"
+         r"|lives on|a year\W|salary|millionaire|billionaires?\b.*thanks|watch industry")
 MARKET = (r"stocks?|shares|equit|market|wall street|S&P|nasdaq|\bdow\b|index|futures|investors?|treasur"
-          r"|yields?|bonds?|\boil\b|crude|\bgold\b|dollar|currenc|bitcoin|crypto|sector|valuation|bubble"
+          r"|yields?|\bbonds\b|bond (?:market|yields?|prices?)|\boil\b|crude|\bgold\b|dollar|currenc|bitcoin|crypto|sector|valuation|bubble"
           r"|selloff|sell-off|volatility|\bVIX\b|IPO|earnings|economy|economic|recession|GDP|bank")
 
 STOP = {"the", "and", "for", "with", "from", "that", "this", "after", "over", "into", "stock", "stocks",
@@ -49,7 +51,9 @@ def _words(title):
     return {w.lower() for w in re.findall(r"[A-Za-z][A-Za-z&.'-]{3,}", title)} - STOP
 
 
-def pick(news, stocks, config_stocks, manual=""):
+def pick(news, stocks, config_stocks, manual="", indices=None):
+    """indices 를 넘기면, 지수가 2% 이상 움직인 날은 아주 강한 기사(8점 이상)가 아니면
+    지수 움직임 자체를 핵심 이슈로 씁니다."""
     manual = " ".join((manual or "").split())
     if manual:
         return {"text": manual[:160], "tag": "편집", "link": "", "source": "", "note": "", "manual": True}
@@ -79,7 +83,8 @@ def pick(news, stocks, config_stocks, manual=""):
         for a, sym in alias.items():
             if re.search(r"\b" + re.escape(a) + r"\b", t, re.I if len(a) > 4 else 0):
                 hit = moves.get(sym) or hit
-        if hit:
+        # 종목 이름만 나온 생활 기사에 점수를 주지 않도록, 시장·주제 단어가 함께 있을 때만 가산
+        if hit and (score > 0 or re.search(MARKET, t, re.I)):
             score += 1 + min(abs(hit["pct"]), 8)
         overlap = sum(1 for j, b in enumerate(bags) if j != i and len(bags[i] & b) >= 2)
         score += min(overlap, 3) * 1.5
@@ -89,6 +94,9 @@ def pick(news, stocks, config_stocks, manual=""):
                 note = hit["name"] + " " + format(hit["pct"], "+.2f") + "%"
             best, best_score = {"text": t, "tag": tag or "시장", "link": n.get("link", ""),
                                 "source": n.get("source", ""), "note": note, "manual": False}, score
+    main = [i for i in indices or [] if i.get("symbol") != "^RUT"]
+    if main and max(abs(i["pct"]) for i in main) >= 2 and best_score < 8:
+        return None
     return best if best_score >= 3 else None
 
 
@@ -96,9 +104,14 @@ def fallback(indices):
     """뉴스로 고르지 못했을 때: 가장 크게 움직인 지수로 한 줄."""
     if not indices:
         return None
-    top = max(indices, key=lambda i: abs(i["pct"]))
-    verb = "상승" if top["pct"] > 0 else "하락"
-    if abs(top["pct"]) >= 1.5:
-        verb = "급등" if top["pct"] > 0 else "급락"
-    return {"text": top["name"] + " " + format(top["pct"], "+.2f") + "% " + verb + "으로 마감",
-            "tag": "시장", "link": "", "source": "", "note": "", "manual": False}
+    main = [i for i in indices if i.get("symbol") != "^RUT"] or indices
+    top = max(main, key=lambda i: abs(i["pct"]))
+    same = all((i["pct"] > 0) == (top["pct"] > 0) for i in main)
+    big = abs(top["pct"]) >= 1.5
+    verb = ("급등" if big else "상승") if top["pct"] > 0 else ("급락" if big else "하락")
+    if same and len(main) > 1:
+        parts = ", ".join(i["name"] + " " + format(i["pct"], "+.2f") + "%" for i in sorted(main, key=lambda i: i["pct"]))
+        text = "뉴욕증시 " + verb + " 마감: " + parts
+    else:
+        text = top["name"] + " " + format(top["pct"], "+.2f") + "% " + verb + "으로 마감"
+    return {"text": text, "tag": "시장", "link": "", "source": "", "note": "", "manual": False}
