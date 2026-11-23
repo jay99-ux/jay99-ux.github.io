@@ -192,3 +192,13 @@ a.tile.link:hover .go { opacity: 1; }
   .tile.link .name small { display: none; }   /* 모바일: 티커 숨김 */
   .go .gt { display: none; }                  /* 모바일: "차트" 글자 대신 화살표만 */
 }
+
+/* 모바일: 지수 등락률·등락폭을 항상 한 줄로 */
+@media (max-width: 560px) {
+  .idx .chg { flex-wrap: nowrap; gap: 6px; font-size: 12.5px; white-space: nowrap; }
+  .idx .level { font-size: 20px; }
+}
+@media (max-width: 370px) {
+  .idx { padding: 14px 12px; }
+  .idx .chg { font-size: 12px; gap: 5px; }
+}
