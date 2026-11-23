@@ -34,12 +34,12 @@
     {"name": "버크셔 해서웨이", "symbol": "BRK-B", "aliases": ["Berkshire", "Buffett"], "chart": "NYSE:BRK.B"}
   ],
   "macro": [
-    {"name": "WTI 유가", "symbol": "CL=F", "unit": "$", "digits": 2},
-    {"name": "금", "symbol": "GC=F", "unit": "$", "digits": 1},
-    {"name": "달러/원", "symbol": "KRW=X", "unit": "원", "digits": 1},
-    {"name": "달러 인덱스", "symbol": "DX-Y.NYB", "unit": "", "digits": 2},
-    {"name": "VIX 변동성", "symbol": "^VIX", "unit": "", "digits": 2, "fred": "VIXCLS"},
-    {"name": "비트코인", "symbol": "BTC-USD", "unit": "$", "digits": 0}
+    {"name": "WTI 유가", "symbol": "CL=F", "unit": "$", "digits": 2, "chart": "NYMEX:CL1!"},
+    {"name": "금", "symbol": "GC=F", "unit": "$", "digits": 1, "chart": "COMEX:GC1!"},
+    {"name": "달러/원", "symbol": "KRW=X", "unit": "원", "digits": 1, "chart": "FX_IDC:USDKRW"},
+    {"name": "달러 인덱스", "symbol": "DX-Y.NYB", "unit": "", "digits": 2, "chart": "TVC:DXY"},
+    {"name": "VIX 변동성", "symbol": "^VIX", "unit": "", "digits": 2, "fred": "VIXCLS", "chart": "TVC:VIX"},
+    {"name": "비트코인", "symbol": "BTC-USD", "unit": "$", "digits": 0, "chart": "INDEX:BTCUSD"}
   ],
   "performance": ["^GSPC", "^IXIC", "^DJI", "^RUT", "NVDA", "AAPL", "MSFT", "GOOGL", "AMZN", "META", "AVGO", "TSLA", "ANT", "INTC", "MU", "BRK-B", "GC=F", "BTC-USD"],
   "risk": {"high_yield_fred": "BAMLH0A0HYM2"},

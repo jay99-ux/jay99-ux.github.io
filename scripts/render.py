@@ -160,6 +160,11 @@ def render_stocks(items):
     return '<div class="tiles">' + "".join(tiles) + "</div>"
 
 
+# 예전 기록(차트 정보 없이 저장된 날짜)용 기본값
+MACRO_TV_FALLBACK = {"CL=F": "NYMEX:CL1!", "GC=F": "COMEX:GC1!", "KRW=X": "FX_IDC:USDKRW",
+                     "DX-Y.NYB": "TVC:DXY", "^VIX": "TVC:VIX", "BTC-USD": "INDEX:BTCUSD"}
+
+
 def render_macro(items):
     if not items:
         return empty("원자재·환율 데이터를 가져오지 못했습니다.")
@@ -170,10 +175,20 @@ def render_macro(items):
         unit = it.get("unit", "")
         val = format(it["close"], ",." + digits + "f")
         val = "$" + val if unit == "$" else val + unit if unit else val
+        chart = it.get("chart") or MACRO_TV_FALLBACK.get(it.get("symbol", ""))
+        if chart:
+            url = "https://kr.tradingview.com/chart/?symbol=" + quote_url(chart, safe="")
+            open_tag = ('<a class="tile link" href="' + escape(url, quote=True)
+                        + '" target="_blank" rel="noopener noreferrer" title="TradingView 차트 열기">')
+            name = '<span class="name"><span>' + escape(it["name"]) + '</span><span class="go">차트 ↗</span></span>'
+            close_tag = "</a>"
+        else:
+            open_tag, close_tag = '<div class="tile">', "</div>"
+            name = '<span class="name">' + escape(it["name"]) + "</span>"
         tiles.append(
-            '<div class="tile"><span class="name">' + escape(it["name"]) + "</span>"
-            '<span class="px">' + escape(val) + '</span><span class="v ' + c + '">' + pct(it["pct"]) + "</span>"
-            + spark(it.get("spark"), c) + "</div>"
+            open_tag + name
+            + '<span class="px">' + escape(val) + '</span><span class="v ' + c + '">' + pct(it["pct"]) + "</span>"
+            + spark(it.get("spark"), c) + close_tag
         )
     return '<div class="tiles">' + "".join(tiles) + '</div><p class="note">유가·금은 근월물 선물, 기준 시각은 수집 시점</p>'
 
