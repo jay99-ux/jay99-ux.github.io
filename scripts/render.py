@@ -369,7 +369,7 @@ def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         "<title>" + escape(title) + "</title>"
         '<link rel="stylesheet" href="' + root + 'style.css"></head><body><div class="wrap">'
-        '<header><div class="label">US Market Morning Brief</div><h1>미국장 모닝 브리핑</h1>'
+        '<header><div class="label">US Market Morning Brief</div><h1>미국장 모닝 브리핑<span class="byline">by Jay</span></h1>'
         '<div class="asof"><b>' + kdate(md) + "</b> 미국장 · 자동 갱신 " + escape(gen) + "</div>"
         '<nav class="pager">' + "".join(nav) + "</nav></header>"
         + render_headline(d.get("headline"))

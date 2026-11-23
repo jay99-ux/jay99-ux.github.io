@@ -182,3 +182,6 @@ a.tile.link:hover, a.tile.link:focus-visible { border-color: var(--accent); box-
 .tile.link .name { display: flex; justify-content: space-between; gap: 6px; }
 a.tile.link:hover .go { opacity: 1; }
 .go { white-space: nowrap; flex-shrink: 0; }
+
+/* 제목 옆 작성자 */
+.byline { font-size: 0.4em; font-weight: 500; color: var(--muted); letter-spacing: 0; margin-left: 0.6em; white-space: nowrap; }
