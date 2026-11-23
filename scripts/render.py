@@ -148,7 +148,7 @@ def render_stocks(items):
     if not items:
         return empty("종목 데이터를 가져오지 못했습니다.")
     tiles = []
-    for it in sorted(items, key=lambda x: x["pct"], reverse=True):
+    for it in items:  # config.json의 stocks 순서 그대로 (등락률로 정렬하지 않음)
         c = sign(it["pct"])
         chart = it.get("chart") or it.get("symbol", "").replace("-", ".")
         url = "https://kr.tradingview.com/chart/?symbol=" + quote_url(chart, safe="")
