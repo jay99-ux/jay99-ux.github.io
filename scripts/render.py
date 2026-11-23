@@ -1,11 +1,17 @@
 """HTML 렌더링. 모든 외부 문자열은 escape 해서 넣습니다."""
 from datetime import date, datetime, timedelta, timezone
+import hashlib
 from html import escape
+from pathlib import Path
 from urllib.parse import quote as quote_url
 
 import signals
 
 KST = timezone(timedelta(hours=9))
+
+# 스타일 파일이 바뀌면 주소 뒤 ?v= 값도 바뀌어, 휴대폰이 예전 스타일을 캐시에서 쓰지 않게 함
+_CSS = Path(__file__).resolve().parent.parent / "docs" / "style.css"
+CSS_VER = hashlib.md5(_CSS.read_bytes()).hexdigest()[:8] if _CSS.exists() else "0"
 WEEKDAYS = "월화수목금토일"
 
 
@@ -368,7 +374,7 @@ def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         "<title>" + escape(title) + "</title>"
-        '<link rel="stylesheet" href="' + root + 'style.css"></head><body><div class="wrap">'
+        '<link rel="stylesheet" href="' + root + 'style.css?v=' + CSS_VER + '"></head><body><div class="wrap">'
         '<header><div class="label">US Market Morning Brief</div><h1>미국장 모닝 브리핑<span class="byline">by Jay</span></h1>'
         '<div class="asof"><b>' + kdate(md) + "</b> 미국장 · 자동 갱신 " + escape(gen) + "</div>"
         '<nav class="pager">' + "".join(nav) + "</nav></header>"
@@ -396,7 +402,7 @@ def archive_index(entries, root="../"):
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         "<title>지난 브리핑 · 미국장 모닝 브리핑</title>"
-        '<link rel="stylesheet" href="' + root + 'style.css"></head><body><div class="wrap">'
+        '<link rel="stylesheet" href="' + root + 'style.css?v=' + CSS_VER + '"></head><body><div class="wrap">'
         '<header><div class="label">Archive</div><h1>지난 브리핑</h1>'
         '<nav class="pager"><span></span><a href="' + root + 'index.html">최신 브리핑으로</a><span></span></nav></header>'
         '<section><ul class="archive"><li class="head"><span>미국장 날짜</span><span>S&amp;P 500</span><span>나스닥</span><span>다우</span></li>'
