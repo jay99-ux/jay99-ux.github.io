@@ -12,6 +12,8 @@ KST = timezone(timedelta(hours=9))
 # 스타일 파일이 바뀌면 주소 뒤 ?v= 값도 바뀌어, 휴대폰이 예전 스타일을 캐시에서 쓰지 않게 함
 _CSS = Path(__file__).resolve().parent.parent / "docs" / "style.css"
 CSS_VER = hashlib.md5(_CSS.read_bytes()).hexdigest()[:8] if _CSS.exists() else "0"
+_OG = _CSS.parent / "og.png"
+OG_VER = hashlib.md5(_OG.read_bytes()).hexdigest()[:8] if _OG.exists() else "0"
 WEEKDAYS = "월화수목금토일"
 
 
@@ -332,7 +334,39 @@ def render_headline(h):
 
 # ---------------------------------------------------------------- 페이지
 
-def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=None):
+def share_meta(d, url, site_url):
+    """카톡·문자·슬랙 링크 미리보기(오픈그래프)."""
+    md = d.get("market_date", "")
+    try:
+        dd = date.fromisoformat(md)
+        when = str(dd.month) + "/" + str(dd.day) + "(" + WEEKDAYS[dd.weekday()] + ")"
+    except ValueError:
+        when = md
+    title = "미국장 모닝 브리핑 " + when + " · by Jay"
+    idx = {i["name"]: i for i in d.get("indices") or []}
+    nums = " · ".join(
+        short + " " + pct(idx[name]["pct"])
+        for name, short in (("S&P 500", "S&P"), ("나스닥 종합", "나스닥"), ("다우존스", "다우"))
+        if name in idx
+    )
+    hl = d.get("headline") or {}
+    h = hl.get("text", "")
+    if h and hl.get("tag") == "시장" and "%" in h:
+        desc = h  # 지수 움직임이 핵심 이슈면 숫자가 이미 들어 있음
+    else:
+        desc = (h + " | " + nums) if h else nums
+    img = site_url + "og.png?v=" + OG_VER
+    tags = [
+        ("property", "og:type", "website"), ("property", "og:site_name", "미국장 모닝 브리핑"),
+        ("property", "og:title", title), ("property", "og:description", desc),
+        ("property", "og:url", url), ("property", "og:image", img),
+        ("property", "og:image:width", "1200"), ("property", "og:image:height", "630"),
+        ("name", "twitter:card", "summary_large_image"), ("name", "description", desc),
+    ]
+    return "".join('<meta ' + k + '="' + n + '" content="' + escape(v, quote=True) + '">' for k, n, v in tags)
+
+
+def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=None, site_url=""):
     """root: style.css 까지의 상대 경로 접두어 ('' 또는 '../')."""
     md = d.get("market_date", "")
     gen = d.get("generated_at", "")
@@ -374,7 +408,8 @@ def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         "<title>" + escape(title) + "</title>"
-        '<link rel="stylesheet" href="' + root + 'style.css?v=' + CSS_VER + '"></head><body><div class="wrap">'
+        + (share_meta(d, site_url + ("" if is_latest else "archive/" + md + ".html"), site_url) if site_url else "")
+        + '<link rel="stylesheet" href="' + root + 'style.css?v=' + CSS_VER + '"></head><body><div class="wrap">'
         '<header><div class="label">US Market Morning Brief</div><h1>미국장 모닝 브리핑<span class="byline">by Jay</span></h1>'
         '<div class="asof"><b>' + kdate(md) + "</b> 미국장 · 자동 갱신 " + escape(gen) + "</div>"
         '<nav class="pager">' + "".join(nav) + "</nav></header>"

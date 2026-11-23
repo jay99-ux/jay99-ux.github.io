@@ -1,5 +1,6 @@
 {
   "_설명": "보여줄 종목·피드·지표를 여기서 바꿀 수 있습니다. 심볼은 Yahoo Finance 표기를 씁니다.",
+  "site_url": "https://jay99-ux.github.io/us-morning-brief/",
   "indices": [
     {"name": "S&P 500", "symbol": "^GSPC", "fred": "SP500", "chart": "SP:SPX"},
     {"name": "나스닥 종합", "symbol": "^IXIC", "fred": "NASDAQCOM", "chart": "NASDAQ:IXIC"},

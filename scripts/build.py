@@ -137,10 +137,10 @@ def write_site(history_dir):
         prev_d = dates[n - 1] if n > 0 else None
         next_d = dates[n + 1] if n + 1 < len(dates) else None
         (arch / (md + ".html")).write_text(
-            render.page(data, "../", prev_d, next_d, is_latest=False, perf_symbols=CONFIG["performance"]), encoding="utf-8")
+            render.page(data, "../", prev_d, next_d, is_latest=False, perf_symbols=CONFIG["performance"], site_url=CONFIG.get("site_url", "")), encoding="utf-8")
     latest_date, latest = entries[-1]
     prev_latest = dates[-2] if len(dates) > 1 else None
-    (DOCS / "index.html").write_text(render.page(latest, "", prev_latest, None, is_latest=True, perf_symbols=CONFIG["performance"]), encoding="utf-8")
+    (DOCS / "index.html").write_text(render.page(latest, "", prev_latest, None, is_latest=True, perf_symbols=CONFIG["performance"], site_url=CONFIG.get("site_url", "")), encoding="utf-8")
     (DOCS / "data.json").write_text(json.dumps(latest, ensure_ascii=False, indent=2), encoding="utf-8")
     (arch / "index.html").write_text(render.archive_index(list(reversed(entries))), encoding="utf-8")
     print("docs/ 생성 완료: 최신 " + latest_date + ", 보관 " + str(len(entries)) + "건")
