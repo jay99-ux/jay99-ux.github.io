@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T01:03:10+00:00",
+  "generated_at": "2026-11-23T01:08:25+00:00",
   "indices": [
     {
       "date": "2026-11-20",
@@ -1135,9 +1135,9 @@
   "macro": [
     {
       "date": "2026-11-22",
-      "close": 82.91999816894531,
-      "change": -1.0600051879882812,
-      "pct": -1.2622114141660898,
+      "close": 82.9000015258789,
+      "change": -1.0800018310546875,
+      "pct": -1.2860226100068617,
       "spark": [
         103.27,
         101.76,
@@ -1160,17 +1160,17 @@
         83.26,
         83.21,
         83.98,
-        82.92
+        82.9
       ],
       "perf": {
-        "w1": -6.368563172008734,
-        "m1": -19.70562519185227,
-        "ytd": 44.40961479129979
+        "w1": -6.3911429412247145,
+        "m1": -19.724988650471843,
+        "ytd": 44.37478956715475
       },
       "hi52": 112.94999694824219,
-      "dd52": -26.586985029364563,
-      "ma200": 88.39010007858276,
-      "vs200": -6.188591148527134,
+      "dd52": -26.604689007768002,
+      "ma200": 88.39000009536743,
+      "vs200": -6.21110822894575,
       "src": "Yahoo",
       "name": "WTI 유가",
       "symbol": "CL=F",
@@ -1180,9 +1180,9 @@
     },
     {
       "date": "2026-11-22",
-      "close": 3574.10009765625,
-      "change": 58.7001953125,
-      "pct": 1.669801358114735,
+      "close": 3570.800048828125,
+      "change": 55.400146484375,
+      "pct": 1.5759272920113359,
       "spark": [
         4007.8999,
         4038.3999,
@@ -1205,17 +1205,17 @@
         3741.8999,
         3685.5,
         3515.3999,
-        3574.1001
+        3570.8
       ],
       "perf": {
-        "w1": -8.033346557119692,
-        "m1": -10.823618734435492,
-        "ytd": -17.668332513551157
+        "w1": -8.11826148357062,
+        "m1": -10.905957338406003,
+        "ytd": -17.744351235853973
       },
       "hi52": 5318.39990234375,
-      "dd52": -32.79745481190329,
-      "ma200": 4437.651995849609,
-      "vs200": -19.45965792272605,
+      "dd52": -32.859504467602754,
+      "ma200": 4437.635495605468,
+      "vs200": -19.53372348034802,
       "src": "Yahoo",
       "name": "금",
       "symbol": "GC=F",
@@ -1225,9 +1225,9 @@
     },
     {
       "date": "2026-11-23",
-      "close": 1342.239990234375,
-      "change": 7.449951171875,
-      "pct": 0.5581365573500631,
+      "close": 1343.97998046875,
+      "change": 9.18994140625,
+      "pct": 0.6884934062517147,
       "spark": [
         1325.99,
         1321.76,
@@ -1250,17 +1250,17 @@
         1333.01,
         1330.4,
         1334.79,
-        1342.24
+        1343.98
       ],
       "perf": {
-        "w1": 0.6742914107912945,
-        "m1": 1.2254994471811775,
-        "ytd": -6.6534095785687475
+        "w1": 0.8047988350834423,
+        "m1": 1.3567214207397704,
+        "ytd": -6.532401296199564
       },
       "hi52": 1554.47998046875,
-      "dd52": -13.653439922100151,
-      "ma200": 1438.492548828125,
-      "vs200": -6.691210091575572,
+      "dd52": -13.541506011323746,
+      "ma200": 1438.501248779297,
+      "vs200": -6.570815867609225,
       "src": "Yahoo",
       "name": "달러/원",
       "symbol": "KRW=X",
@@ -1270,9 +1270,9 @@
     },
     {
       "date": "2026-11-22",
-      "close": 103.77799987792969,
-      "change": -0.0319976806640625,
-      "pct": -0.030823313184264324,
+      "close": 103.78099822998047,
+      "change": -0.02899932861328125,
+      "pct": -0.027935005582591484,
       "spark": [
         101.81,
         101.96,
@@ -1295,17 +1295,17 @@
         103.86,
         103.9,
         103.81,
-        103.778
+        103.781
       ],
       "perf": {
-        "w1": 0.35586133138794107,
-        "m1": 1.9330147986727164,
-        "ytd": 5.594221781564568
+        "w1": 0.3587608110752205,
+        "m1": 1.9359598454487426,
+        "ytd": 5.597272607864956
       },
       "hi52": 103.9000015258789,
-      "dd52": -0.11742218109480618,
-      "ma200": 100.0393402481079,
-      "vs200": 3.7371894102355308,
+      "dd52": -0.11453637550601359,
+      "ma200": 100.03935523986816,
+      "vs200": 3.7401710368292873,
       "src": "Yahoo",
       "name": "달러 인덱스",
       "symbol": "DX-Y.NYB",
@@ -1360,9 +1360,9 @@
     },
     {
       "date": "2026-11-23",
-      "close": 60942.37890625,
-      "change": 848.2890625,
-      "pct": 1.4116014814528806,
+      "close": 60878.7890625,
+      "change": 784.69921875,
+      "pct": 1.3057843471634034,
       "spark": [
         78248.4531,
         76677.2969,
@@ -1385,17 +1385,17 @@
         61901.8203,
         58798.9805,
         60094.0898,
-        60942.3789
+        60878.7891
       ],
       "perf": {
-        "w1": -6.034097496033275,
-        "m1": -24.56770845471239,
-        "ytd": -30.358593284784664
+        "w1": -6.1321454745548625,
+        "m1": -24.646417683317466,
+        "ytd": -30.431260060368913
       },
       "hi52": 96929.328125,
-      "dd52": -37.12699748866643,
-      "ma200": 72324.9821875,
-      "vs200": -15.738134925136936,
+      "dd52": -37.19260182636286,
+      "ma200": 72324.66423828126,
+      "vs200": -15.825687262192623,
       "src": "Yahoo",
       "name": "비트코인",
       "symbol": "BTC-USD",
@@ -1431,6 +1431,12 @@
   ],
   "news": [
     {
+      "title": "Some Underperforming Japan Stocks May Start Rising After Strong Results",
+      "link": "https://www.wsj.com/finance/stocks/some-underperforming-japan-stocks-may-start-rising-after-strong-results-e6e3f434?mod=rss_markets_main",
+      "source": "WSJ 마켓",
+      "time": "2026-11-23T01:05:00+00:00"
+    },
+    {
       "title": "Gold Rises in Likely Technical Rebound",
       "link": "https://www.wsj.com/finance/commodities-futures/gold-rises-in-likely-technical-rebound-f895016c?mod=rss_markets_main",
       "source": "WSJ 마켓",
@@ -1443,10 +1449,10 @@
       "time": "2026-11-23T00:41:00+00:00"
     },
     {
-      "title": "Opinion | How to Kill a Bull Market",
-      "link": "https://www.wsj.com/opinion/how-to-kill-a-bull-market-ai-policy-15fb5af6?mod=rss_markets_main",
+      "title": "Asian Currencies Mixed as Traders Digest Divergent Signals",
+      "link": "https://www.wsj.com/finance/currencies/yen-may-strengthen-vs-dollar-on-diminished-risk-appetite-6434fe7e?mod=rss_markets_main",
       "source": "WSJ 마켓",
-      "time": "2026-11-22T22:01:00+00:00"
+      "time": "2026-11-23T00:24:00+00:00"
     },
     {
       "title": "Corporate America hunts for ‘generational’ growth in AI, trading cards and the L.A. airport",
@@ -1455,52 +1461,40 @@
       "time": "2026-11-22T21:51:00+00:00"
     },
     {
-      "title": "Ron Johnson’s Social Security gaffe buried important news",
-      "link": "https://www.marketwatch.com/story/ron-johnsons-social-security-gaffe-buried-important-news-b96e0ce8?mod=mw_rss_topstories",
-      "source": "MarketWatch",
-      "time": "2026-11-22T21:28:00+00:00"
-    },
-    {
-      "title": "Social Security should be shut down, this Republican senator says",
-      "link": "https://www.marketwatch.com/story/social-security-should-be-shut-down-this-republican-senator-says-8f7fef81?mod=mw_rss_topstories",
-      "source": "MarketWatch",
-      "time": "2026-11-22T20:26:00+00:00"
-    },
-    {
-      "title": "Medicare beneficiaries could skip the nursing home for cheaper care at home under new bill",
-      "link": "https://www.marketwatch.com/story/medicare-beneficiaries-could-skip-the-nursing-home-for-cheaper-care-at-home-under-new-bill-e289c8d0?mod=mw_rss_topstories",
-      "source": "MarketWatch",
-      "time": "2026-11-22T19:24:00+00:00"
-    },
-    {
-      "title": "Employees at Eric Trump-backed robot startup lose health benefits as company's cash crunch deepens",
-      "link": "https://www.cnbc.com/2026/11/22/foundation-future-industries-health-benefits-payroll-base-group.html",
-      "source": "CNBC",
-      "time": "2026-11-22T18:55:05+00:00"
-    },
-    {
       "title": "These little-known investments could be among the best bargains in a crash",
       "link": "https://www.marketwatch.com/story/these-little-known-investments-could-be-among-the-best-bargains-in-a-crash-78a379b4?mod=mw_rss_topstories",
       "source": "MarketWatch",
       "time": "2026-11-22T18:23:00+00:00"
     },
     {
-      "title": "Opinion | Give Thanks to Inverse Billionaires",
-      "link": "https://www.wsj.com/opinion/give-thanks-to-inverse-billionaires-0a839607?mod=rss_markets_main",
-      "source": "WSJ 마켓",
-      "time": "2026-11-22T17:58:00+00:00"
-    },
-    {
-      "title": "Private equity has been buying up hospice centers — with striking consequences",
-      "link": "https://www.marketwatch.com/story/private-equity-has-been-buying-up-hospice-centers-with-striking-consequences-63642545?mod=mw_rss_topstories",
-      "source": "MarketWatch",
-      "time": "2026-11-22T17:22:00+00:00"
-    },
-    {
-      "title": "Director of National Intelligence Jay Clayton warns Americans of 'bumps in the road' after tech outages",
-      "link": "https://www.cnbc.com/2026/11/22/jay-clayton-tech-outages-faa-microsoft-thanksgiving.html",
+      "title": "26-year-old Google worker earns $323,000 a year—but lives on less than minimum wage",
+      "link": "https://www.cnbc.com/make-it/2026/11/22/google-worker-earns-323000-a-yearbut-he-lives-on-minimum-wage.html",
       "source": "CNBC",
-      "time": "2026-11-22T17:14:03+00:00"
+      "time": "2026-11-22T14:00:01+00:00"
+    },
+    {
+      "title": "Saudi Arabia, Bahrain report new attacks as Iran says it remains open to a deal with U.S.",
+      "link": "https://www.cnbc.com/2026/11/22/saudi-houthi-bahrain-iran-attacks-araghchi-talks.html",
+      "source": "CNBC",
+      "time": "2026-11-22T13:25:47+00:00"
+    },
+    {
+      "title": "Top Wall Street analysts favor these 3 dividend stocks for strong returns",
+      "link": "https://www.cnbc.com/2026/11/22/top-wall-street-analysts-favor-these-stocks-for-strong-returns.html",
+      "source": "CNBC",
+      "time": "2026-11-22T12:13:56+00:00"
+    },
+    {
+      "title": "The Nasdaq is in freefall. Here's one stock to look at",
+      "link": "https://www.cnbc.com/2026/11/22/the-nasdaq-is-in-freefall-heres-one-stock-to-look-at.html",
+      "source": "CNBC",
+      "time": "2026-11-22T12:10:39+00:00"
+    },
+    {
+      "title": "James Bond’s Bare Wrist Sets Off Watch Industry War",
+      "link": "https://www.wsj.com/business/retail/james-bonds-bare-wrist-sets-off-watch-industry-war-b6b179a9?mod=rss_markets_main",
+      "source": "WSJ 마켓",
+      "time": "2026-11-22T10:30:00+00:00"
     }
   ],
   "fed": [
@@ -1561,11 +1555,11 @@
   },
   "market_date": "2026-11-20",
   "headline": {
-    "text": "나스닥 종합 -5.28% 급락으로 마감",
+    "text": "26-year-old Google worker earns $323,000 a year—but lives on less than minimum wage",
     "tag": "시장",
-    "link": "",
-    "source": "",
-    "note": "",
+    "link": "https://www.cnbc.com/make-it/2026/11/22/google-worker-earns-323000-a-yearbut-he-lives-on-minimum-wage.html",
+    "source": "CNBC",
+    "note": "알파벳 -2.70%",
     "manual": false
   }
 }
