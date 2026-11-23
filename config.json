@@ -20,18 +20,18 @@
     {"name": "부동산", "symbol": "XLRE"}
   ],
   "stocks": [
-    {"name": "엔비디아", "symbol": "NVDA", "aliases": ["Nvidia"]},
-    {"name": "애플", "symbol": "AAPL", "aliases": ["Apple", "iPhone"]},
-    {"name": "마이크로소프트", "symbol": "MSFT", "aliases": ["Microsoft"]},
-    {"name": "알파벳", "symbol": "GOOGL", "aliases": ["Alphabet", "Google"]},
-    {"name": "아마존", "symbol": "AMZN", "aliases": ["Amazon"]},
-    {"name": "메타", "symbol": "META", "aliases": ["Meta", "Facebook"]},
-    {"name": "브로드컴", "symbol": "AVGO", "aliases": ["Broadcom"]},
-    {"name": "테슬라", "symbol": "TSLA", "aliases": ["Tesla", "Musk"]},
-    {"name": "앤트로픽", "symbol": "ANT", "aliases": ["Anthropic"]},
-    {"name": "인텔", "symbol": "INTC", "aliases": ["Intel"]},
-    {"name": "마이크론", "symbol": "MU", "aliases": ["Micron"]},
-    {"name": "버크셔 해서웨이", "symbol": "BRK-B", "aliases": ["Berkshire", "Buffett"]}
+    {"name": "엔비디아", "symbol": "NVDA", "aliases": ["Nvidia"], "chart": "NASDAQ:NVDA"},
+    {"name": "애플", "symbol": "AAPL", "aliases": ["Apple", "iPhone"], "chart": "NASDAQ:AAPL"},
+    {"name": "마이크로소프트", "symbol": "MSFT", "aliases": ["Microsoft"], "chart": "NASDAQ:MSFT"},
+    {"name": "알파벳", "symbol": "GOOGL", "aliases": ["Alphabet", "Google"], "chart": "NASDAQ:GOOGL"},
+    {"name": "아마존", "symbol": "AMZN", "aliases": ["Amazon"], "chart": "NASDAQ:AMZN"},
+    {"name": "메타", "symbol": "META", "aliases": ["Meta", "Facebook"], "chart": "NASDAQ:META"},
+    {"name": "브로드컴", "symbol": "AVGO", "aliases": ["Broadcom"], "chart": "NASDAQ:AVGO"},
+    {"name": "테슬라", "symbol": "TSLA", "aliases": ["Tesla", "Musk"], "chart": "NASDAQ:TSLA"},
+    {"name": "앤트로픽", "symbol": "ANT", "aliases": ["Anthropic"], "chart": "NASDAQ:ANT"},
+    {"name": "인텔", "symbol": "INTC", "aliases": ["Intel"], "chart": "NASDAQ:INTC"},
+    {"name": "마이크론", "symbol": "MU", "aliases": ["Micron"], "chart": "NASDAQ:MU"},
+    {"name": "버크셔 해서웨이", "symbol": "BRK-B", "aliases": ["Berkshire", "Buffett"], "chart": "NYSE:BRK.B"}
   ],
   "macro": [
     {"name": "WTI 유가", "symbol": "CL=F", "unit": "$", "digits": 2},

@@ -150,9 +150,12 @@ def render_stocks(items):
     tiles = []
     for it in sorted(items, key=lambda x: x["pct"], reverse=True):
         c = sign(it["pct"])
+        chart = it.get("chart") or it.get("symbol", "").replace("-", ".")
+        url = "https://kr.tradingview.com/chart/?symbol=" + quote_url(chart, safe="")
         tiles.append(
-            '<div class="tile"><span class="name">' + escape(it["name"]) + ' <small>' + escape(it["symbol"]) + "</small></span>"
-            '<span class="px">$' + format(it["close"], ",.2f") + '</span><span class="v ' + c + '">' + pct(it["pct"]) + "</span></div>"
+            '<a class="tile link" href="' + escape(url, quote=True) + '" target="_blank" rel="noopener noreferrer" title="TradingView 차트 열기">'
+            '<span class="name"><span>' + escape(it["name"]) + ' <small>' + escape(it["symbol"]) + '</small></span><span class="go">차트 ↗</span></span>'
+            '<span class="px">$' + format(it["close"], ",.2f") + '</span><span class="v ' + c + '">' + pct(it["pct"]) + "</span></a>"
         )
     return '<div class="tiles">' + "".join(tiles) + "</div>"
 
