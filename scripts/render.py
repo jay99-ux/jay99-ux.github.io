@@ -33,6 +33,29 @@ def kdate(iso):
     return d.strftime("%Y-%m-%d") + " (" + WEEKDAYS[d.weekday()] + ")"
 
 
+def brief_day(d):
+    """브리핑 날짜(한국): 페이지를 만든 한국 날짜. 없으면 미국장 다음 날."""
+    try:
+        return datetime.fromisoformat(d["generated_at"]).astimezone(KST).date()
+    except (KeyError, ValueError):
+        try:
+            return date.fromisoformat(d.get("market_date", "")) + timedelta(days=1)
+        except ValueError:
+            return None
+
+
+def short(dd):
+    """date → '11/24(화)'"""
+    if isinstance(dd, str):
+        try:
+            dd = date.fromisoformat(dd)
+        except ValueError:
+            return escape(dd)
+    if dd is None:
+        return ""
+    return str(dd.month) + "/" + str(dd.day) + "(" + WEEKDAYS[dd.weekday()] + ")"
+
+
 def link(title, url):
     t = escape(title)
     if url.startswith("https://"):
@@ -352,13 +375,7 @@ def render_headline(h):
 
 def share_meta(d, url, site_url):
     """카톡·문자·슬랙 링크 미리보기(오픈그래프)."""
-    md = d.get("market_date", "")
-    try:
-        dd = date.fromisoformat(md)
-        when = str(dd.month) + "/" + str(dd.day) + "(" + WEEKDAYS[dd.weekday()] + ")"
-    except ValueError:
-        when = md
-    title = "미국장 모닝 브리핑 " + when + " · by Jay"
+    title = "미국장 모닝 브리핑 " + short(brief_day(d)) + " · by Jay"
     idx = {i["name"]: i for i in d.get("indices") or []}
     nums = " · ".join(
         short + " " + pct(idx[name]["pct"])
@@ -382,7 +399,8 @@ def share_meta(d, url, site_url):
     return "".join('<meta ' + k + '="' + n + '" content="' + escape(v, quote=True) + '">' for k, n, v in tags)
 
 
-def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=None, site_url=""):
+def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=None, site_url="",
+         prev_label=None, next_label=None):
     """root: style.css 까지의 상대 경로 접두어 ('' 또는 '../')."""
     md = d.get("market_date", "")
     gen = d.get("generated_at", "")
@@ -392,10 +410,10 @@ def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=
         pass
     arch = root + "archive/"
     nav = []
-    nav.append('<a href="' + arch + prev_date + '.html">← ' + prev_date + "</a>" if prev_date else "<span></span>")
+    nav.append('<a href="' + arch + prev_date + '.html">← ' + (prev_label or prev_date) + "</a>" if prev_date else "<span></span>")
     nav.append('<a href="' + arch + 'index.html">지난 브리핑 모아보기</a>')
     if next_date:
-        nav.append('<a href="' + arch + next_date + '.html">' + next_date + " →</a>")
+        nav.append('<a href="' + arch + next_date + '.html">' + (next_label or next_date) + " →</a>")
     elif not is_latest:
         nav.append('<a href="' + root + 'index.html">최신 브리핑 →</a>')
     else:
@@ -419,7 +437,8 @@ def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=
         ("리스크 신호판", render_risk(d)),
     ]
     body = "".join("<section><h2>" + escape(t) + "</h2>" + h + "</section>" for t, h in sections)
-    title = "미국장 모닝 브리핑 " + md
+    bd = brief_day(d)
+    title = "미국장 모닝 브리핑 " + short(bd)
     return (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
@@ -427,7 +446,8 @@ def page(d, root, prev_date=None, next_date=None, is_latest=False, perf_symbols=
         + (share_meta(d, site_url + ("" if is_latest else "archive/" + md + ".html"), site_url) if site_url else "")
         + '<link rel="stylesheet" href="' + root + 'style.css?v=' + CSS_VER + '"></head><body><div class="wrap">'
         '<header><div class="label">US Market Morning Brief</div><h1>미국장 모닝 브리핑<span class="byline">by Jay</span></h1>'
-        '<div class="asof"><b>' + kdate(md) + "</b> 미국장 · 자동 갱신 " + escape(gen) + "</div>"
+        '<div class="asof"><b>' + (kdate(bd.isoformat()) if bd else "") + " 아침 브리핑</b> · "
+        + short(md) + " 미국장 마감 기준 · 자동 갱신 " + escape(gen) + "</div>"
         '<nav class="pager">' + "".join(nav) + "</nav></header>"
         + render_health(d.get("health"))
         + render_headline(d.get("headline"))
@@ -448,8 +468,10 @@ def archive_index(entries, root="../"):
             i = idx.get(name)
             cells += '<span class="' + (sign(i["pct"]) if i else "flat") + '">' + (pct(i["pct"]) if i else "–") + "</span>"
         h = d.get("headline") or {}
-        sub = '<span class="ah">' + escape(h["text"]) + "</span>" if h.get("text") else ""
-        rows.append('<li><span class="ad"><a href="' + md + '.html">' + kdate(md) + "</a>" + sub + "</span>" + cells + "</li>")
+        bd = brief_day(d)
+        sub = '<span class="ah">' + short(md) + " 미국장" + (" · " + escape(h["text"]) if h.get("text") else "") + "</span>"
+        rows.append('<li><span class="ad"><a href="' + md + '.html">' + (kdate(bd.isoformat()) if bd else kdate(md))
+                    + "</a>" + sub + "</span>" + cells + "</li>")
     return (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
@@ -457,7 +479,7 @@ def archive_index(entries, root="../"):
         '<link rel="stylesheet" href="' + root + 'style.css?v=' + CSS_VER + '"></head><body><div class="wrap">'
         '<header><div class="label">Archive</div><h1>지난 브리핑</h1>'
         '<nav class="pager"><span></span><a href="' + root + 'index.html">최신 브리핑으로</a><span></span></nav></header>'
-        '<section><ul class="archive"><li class="head"><span>미국장 날짜</span><span>S&amp;P 500</span><span>나스닥</span><span>다우</span></li>'
+        '<section><ul class="archive"><li class="head"><span>브리핑 날짜 (한국)</span><span>S&amp;P 500</span><span>나스닥</span><span>다우</span></li>'
         + ("".join(rows) or "<li>아직 저장된 브리핑이 없습니다.</li>")
         + "</ul></section><footer><p>정보 제공용이며 투자 조언이 아닙니다.</p></footer></div></body></html>"
     )
