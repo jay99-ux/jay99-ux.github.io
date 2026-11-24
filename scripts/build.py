@@ -178,14 +178,26 @@ def write_site(history_dir):
         shutil.rmtree(arch)
     arch.mkdir(parents=True)
     dates = [d for d, _ in entries]
+    labels = [render.short(render.brief_day(data)) for _, data in entries]  # 이전/다음 링크는 한국 날짜로
+    common = {"perf_symbols": CONFIG["performance"], "site_url": CONFIG.get("site_url", "")}
     for n, (md, data) in enumerate(entries):
-        prev_d = dates[n - 1] if n > 0 else None
-        next_d = dates[n + 1] if n + 1 < len(dates) else None
+        prev_i = n - 1 if n > 0 else None
+        next_i = n + 1 if n + 1 < len(dates) else None
         (arch / (md + ".html")).write_text(
-            render.page(data, "../", prev_d, next_d, is_latest=False, perf_symbols=CONFIG["performance"], site_url=CONFIG.get("site_url", "")), encoding="utf-8")
+            render.page(data, "../",
+                        dates[prev_i] if prev_i is not None else None,
+                        dates[next_i] if next_i is not None else None,
+                        is_latest=False,
+                        prev_label=labels[prev_i] if prev_i is not None else None,
+                        next_label=labels[next_i] if next_i is not None else None,
+                        **common),
+            encoding="utf-8")
     latest_date, latest = entries[-1]
     prev_latest = dates[-2] if len(dates) > 1 else None
-    (DOCS / "index.html").write_text(render.page(latest, "", prev_latest, None, is_latest=True, perf_symbols=CONFIG["performance"], site_url=CONFIG.get("site_url", "")), encoding="utf-8")
+    (DOCS / "index.html").write_text(
+        render.page(latest, "", prev_latest, None, is_latest=True,
+                    prev_label=labels[-2] if len(dates) > 1 else None, **common),
+        encoding="utf-8")
     (DOCS / "data.json").write_text(json.dumps(latest, ensure_ascii=False, indent=2), encoding="utf-8")
     (arch / "index.html").write_text(render.archive_index(list(reversed(entries))), encoding="utf-8")
     print("docs/ 생성 완료: 최신 " + latest_date + ", 보관 " + str(len(entries)) + "건")
