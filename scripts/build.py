@@ -81,6 +81,13 @@ def check(data, now):
         (problems if len(miss) == len(CONFIG["yields"]) else warnings).append("금리 " + ", ".join(miss))
     if not data.get("news"):
         warnings.append("뉴스")
+    # 지수와 날짜가 다른(하루 전 값에 멈춘) 종목·섹터
+    md = data.get("market_date", "")
+    for key, label, limit in (("indices", "지수", 1), ("sectors", "섹터", 3), ("stocks", "종목", 3)):
+        stale = [q["name"] for q in data.get(key) or [] if q.get("date", md) < md]
+        if stale:
+            (problems if len(stale) >= limit else warnings).append(
+                label + " 날짜가 " + md + "보다 이전: " + ", ".join(stale))
     fred_used = [q["name"] for q in data.get("indices") or [] if q.get("src") == "FRED"]
     if fred_used:
         warnings.append("Yahoo 실패로 FRED 사용: " + ", ".join(fred_used))
