@@ -7,6 +7,7 @@ import csv
 import io
 import json
 import os
+import re
 import sys
 import urllib.parse
 import urllib.request
@@ -85,6 +86,14 @@ def yahoo_daily(symbol):
             continue
         d = datetime.fromtimestamp(ts + offset, timezone.utc).strftime("%Y-%m-%d")
         by_date[d] = float(value)  # 같은 날짜가 두 번 오면 나중 값을 씀
+    # 장 마감 뒤 시간외 시간대에는 당일 일봉 종가가 비어(null) 오는 경우가 있음.
+    # 그때는 meta 의 정규장 가격(regularMarketPrice)으로 당일 종가를 채움.
+    meta = res["meta"]
+    price, when = meta.get("regularMarketPrice"), meta.get("regularMarketTime")
+    if price is not None and when:
+        d = datetime.fromtimestamp(when + offset, timezone.utc).strftime("%Y-%m-%d")
+        if not by_date or d > max(by_date):
+            by_date[d] = float(price)
     return _summarize(sorted(by_date.items()))
 
 
@@ -174,18 +183,29 @@ def _parse_time(text):
         return None
 
 
+def _link_matches(url, title):
+    """기사 주소의 단어(slug)와 제목이 어느 정도 겹치는지. 주소에 단어가 거의 없으면 통과."""
+    path = urllib.parse.urlparse(url).path.lower()
+    slug = {w for w in re.findall(r"[a-z]{4,}", path)} - {"story", "articles", "news", "finance", "business",
+                                                           "markets", "stocks", "html", "commodities", "futures"}
+    if len(slug) < 3:
+        return True
+    words = {w for w in re.findall(r"[a-z]{4,}", title.lower().replace("’", "").replace("'", ""))}
+    return len(slug & words) >= 2
+
+
 def rss_items(url):
     root = ET.fromstring(get(url))
     out = []
     for item in root.iter("item"):
-        link = (item.findtext("link") or "").strip()
-        out.append(
-            {
-                "title": " ".join((item.findtext("title") or "").split()),
-                "link": link if link.startswith("https://") else "",
-                "time": _parse_time((item.findtext("pubDate") or "").strip()),
-            }
-        )
+        title = " ".join((item.findtext("title") or "").split())
+        link = ""
+        # 피드에 다른 기사 주소가 잘못 붙어 오는 경우가 있어, 제목과 맞는 주소만 씀 (link → guid 순)
+        for cand in ((item.findtext("link") or "").strip(), (item.findtext("guid") or "").strip()):
+            if cand.startswith("https://") and _link_matches(cand, title):
+                link = cand
+                break
+        out.append({"title": title, "link": link, "time": _parse_time((item.findtext("pubDate") or "").strip())})
     return [i for i in out if i["title"]]
 
 
