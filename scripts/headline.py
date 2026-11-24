@@ -1,16 +1,17 @@
 """오늘의 핵심 이슈 한 줄 고르기.
 
 AI 없이 규칙으로 점수를 매깁니다.
-- 키워드(실적, 상장, 연준, 물가·고용, 관세, 인수합병 등) 가산점
+- 그날의 큰 이야기: 여러 기사에 반복해서 나오는 회사·주제일수록 가산점
+- 사실 보도(복귀·선임·사임·발표·실적·인수·상장·결정 등) 가산점, 의견·해설 기사는 감점
+- 키워드(실적, 상장, 연준, 물가·고용, 관세, 인수합병, 경영진 변동 등) 가산점
 - 헤드라인에 나온 종목이 실제로 크게 움직였으면 등락률만큼 가산점
-- 여러 언론사가 같은 회사·주제를 다뤘으면 가산점
-- 칼럼·재테크 질문형 기사는 감점
 직접 입력한 문장(HEADLINE 환경변수)이 있으면 그것을 우선합니다.
 """
 import re
 
 # (태그, 가중치, 정규식)
 TOPICS = [
+    ("경영", 4, r"\bCEO\b|chief executive|reinstat\w*|resign\w*|steps? down|ousted|appoint\w*|board of directors|succession"),
     ("상장", 4, r"\bIPOs?\b|initial public offering|goes public|go public|public debut|listing"),
     ("실적", 3, r"earnings|quarterly results|revenue|guidance|profit|beats? estimates|misses? estimates|forecast"),
     ("연준", 4, r"\bFed\b|Federal Reserve|FOMC|Powell|rate cuts?|rate hikes?|interest rates?"),
@@ -27,6 +28,16 @@ NOISE = (r"\?|^how |should you|opinion|\bI\b|\bmy\b|retire|my wife|my husband|pe
 MARKET = (r"stocks?|shares|equit|market|wall street|S&P|nasdaq|\bdow\b|index|futures|investors?|treasur"
           r"|yields?|\bbonds\b|bond (?:market|yields?|prices?)|\boil\b|crude|\bgold\b|dollar|currenc|bitcoin|crypto|sector|valuation|bubble"
           r"|selloff|sell-off|volatility|\bVIX\b|IPO|earnings|economy|economic|recession|GDP|bank")
+
+# 사건을 전하는 표현 (사실 보도)
+FACT = (r"\b(?:returns?|reinstat\w*|names?|named|appoint\w*|resign\w*|ousted|fired|steps? down|announc\w*|unveil\w*"
+        r"|files?|filed|reports?|posts?|beats?|miss(?:es)?|raises?|cuts?|hikes?|approv\w*|blocks?|bans?|acquir\w*"
+        r"|agrees?|sues?|launch\w*|debuts?|halts?|delays?|wins?|loses?|engineer\w*)\b")
+# 의견·해설·투자 조언성 기사
+COMMENTARY = (r"Cramer|Mad Money|what to know|what investors|should (?:you|investors)|here are|here's|\bsees\b"
+              r"|newsletter|roundup|market talk|options[- ]trading|big trades|chasing"
+              r"|lessons|\bwhy\b|\bhow\b|opinion|analysts? (?:say|see)|strategist|explain|takeaways|biggest gainers"
+              r"|biggest losers|stocks? to (?:buy|watch)|the trade now")
 
 STOP = {"the", "and", "for", "with", "from", "that", "this", "after", "over", "into", "stock", "stocks",
         "market", "markets", "says", "said", "will", "than", "what", "more", "shares", "amid"}
@@ -65,6 +76,15 @@ def pick(news, stocks, config_stocks, manual="", indices=None):
         for a in cs.get("aliases", []) + [cs["symbol"]]:
             alias[a.lower()] = cs["symbol"]
     moves = {s["symbol"]: s for s in stocks or []}
+
+    def symbols_in(t):
+        found = set()
+        for a, sym in alias.items():
+            if re.search(r"\b" + re.escape(a) + r"\b", t, re.I if len(a) > 4 else 0):
+                found.add(sym)
+        return found
+
+    syms = [symbols_in(n["title"]) for n in news]
     bags = [_words(n["title"]) for n in news]
 
     best, best_score = None, 0.0
@@ -77,17 +97,24 @@ def pick(news, stocks, config_stocks, manual="", indices=None):
                 tag = tag or name
         if re.search(MOVE, t, re.I):
             score += 1
+        if re.search(FACT, t, re.I):
+            score += 2
+        if re.search(COMMENTARY, t, re.I):
+            score -= 5
         if re.search(NOISE, t, re.I):
             score -= 4
         hit = None
-        for a, sym in alias.items():
-            if re.search(r"\b" + re.escape(a) + r"\b", t, re.I if len(a) > 4 else 0):
-                hit = moves.get(sym) or hit
+        for sym in syms[i]:
+            q = moves.get(sym)
+            if q and (hit is None or abs(q["pct"]) > abs(hit["pct"])):
+                hit = q
         # 종목 이름만 나온 생활 기사에 점수를 주지 않도록, 시장·주제 단어가 함께 있을 때만 가산
         if hit and (score > 0 or re.search(MARKET, t, re.I)):
             score += 1 + min(abs(hit["pct"]), 8)
-        overlap = sum(1 for j, b in enumerate(bags) if j != i and len(bags[i] & b) >= 2)
-        score += min(overlap, 3) * 1.5
+        # 그날의 큰 이야기: 같은 종목을 다룬 기사 수, 핵심 단어를 2개 이상 공유하는 기사 수
+        same_sym = sum(1 for j in range(len(news)) if j != i and syms[i] & syms[j])
+        same_words = sum(1 for j, b in enumerate(bags) if j != i and len(bags[i] & b) >= 2)
+        score += min(max(same_sym, same_words), 6) * 1.0
         if score > best_score:
             note = ""
             if hit:

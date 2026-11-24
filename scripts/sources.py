@@ -189,11 +189,13 @@ def rss_items(url):
     return [i for i in out if i["title"]]
 
 
-def news(feeds, limit, hours, now, keep=None):
-    """keep: 헤드라인을 남길지 판단하는 함수(없으면 모두 남김)."""
+def news(feeds, limit, hours, now, keep=None, pool_out=None):
+    """화면용 뉴스 목록(언론사별 개수 제한, 최신순)을 돌려줍니다.
+    keep: 헤드라인을 남길지 판단하는 함수. pool_out(list)을 넘기면 기간 안의 후보 전체를 채워 줍니다
+    (핵심 이슈는 개수 제한 없이 전체 후보에서 고르기 위함)."""
     cutoff = now - timedelta(hours=hours)
     per_source = max(3, limit // 2)
-    seen, pool = set(), []
+    seen, shown, everything = set(), [], []
     for feed in feeds:
         try:
             items = rss_items(feed["url"])
@@ -208,16 +210,16 @@ def news(feeds, limit, hours, now, keep=None):
             if keep and not keep(it["title"]):
                 continue
             seen.add(key)
-            pool.append({**it, "source": feed["source"]})
-            taken += 1
-            if taken >= per_source:
-                break
-    pool.sort(key=lambda i: i["time"] or cutoff, reverse=True)
-    return [
-        {"title": i["title"], "link": i["link"], "source": i["source"],
-         "time": i["time"].isoformat() if i["time"] else ""}
-        for i in pool[:limit]
-    ]
+            row = {"title": it["title"], "link": it["link"], "source": feed["source"],
+                   "time": it["time"].isoformat() if it["time"] else ""}
+            everything.append(row)
+            if taken < per_source:
+                shown.append((it["time"] or cutoff, row))
+                taken += 1
+    if pool_out is not None:
+        pool_out.extend(everything)
+    shown.sort(key=lambda x: x[0], reverse=True)
+    return [row for _, row in shown[:limit]]
 
 
 def fed(feeds, limit=4):
