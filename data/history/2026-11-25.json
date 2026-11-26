@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T22:49:12+00:00",
+  "generated_at": "2026-11-26T22:50:32+00:00",
   "indices": [
     {
       "date": "2026-11-25",
@@ -46,9 +46,9 @@
     },
     {
       "date": "2026-11-25",
-      "close": 23585.802734375,
-      "change": -147.736328125,
-      "pct": -0.6224791327410149,
+      "close": 23585.80078125,
+      "change": -147.73828125,
+      "pct": -0.6224873621289493,
       "spark": [
         26477.8105,
         26549.8496,
@@ -71,17 +71,17 @@
         22617.7305,
         24089.5605,
         23733.5391,
-        23585.8027
+        23585.8008
       ],
       "perf": {
-        "w1": -3.455105368129885,
-        "m1": -9.872522926252003,
-        "ytd": 1.4792730593763848
+        "w1": -3.45511336294988,
+        "m1": -9.872530389649825,
+        "ytd": 1.479264655943724
       },
       "hi52": 27599.7890625,
-      "dd52": -14.543539876465317,
-      "ma200": 25167.647216796875,
-      "vs200": -6.285229877849496,
+      "dd52": -14.54354695305925,
+      "ma200": 25167.64720703125,
+      "vs200": -6.285237601945237,
       "src": "Yahoo",
       "name": "나스닥 종합",
       "symbol": "^IXIC",
@@ -132,9 +132,9 @@
     },
     {
       "date": "2026-11-25",
-      "close": 2704.06103515625,
-      "change": 19.12109375,
-      "pct": 0.7121609483743326,
+      "close": 2704.06005859375,
+      "change": 19.1201171875,
+      "pct": 0.7121245765179294,
       "spark": [
         2818.8701,
         2830.51,
@@ -157,17 +157,17 @@
         2581.79,
         2669.6599,
         2684.9399,
-        2704.061
+        2704.0601
       ],
       "perf": {
-        "w1": -0.37759221372114515,
-        "m1": -2.955724156010564,
-        "ytd": 8.950813321748207
+        "w1": -0.3776281920168878,
+        "m1": -2.955759203222663,
+        "ytd": 8.950773974530346
       },
       "hi52": 3068.419921875,
-      "dd52": -11.874479243248537,
-      "ma200": 2813.406104736328,
-      "vs200": -3.8865725568732246,
+      "dd52": -11.874511069482397,
+      "ma200": 2813.4060998535156,
+      "vs200": -3.886607101102779,
       "src": "Yahoo",
       "name": "러셀 2000",
       "symbol": "^RUT",
@@ -1137,12 +1137,11 @@
   ],
   "macro": [
     {
-      "date": "2026-11-25",
-      "close": 84.1500015258789,
-      "change": 2.0999984741210938,
-      "pct": 2.5594130359707576,
+      "date": "2026-11-26",
+      "close": 84.91000366210938,
+      "change": 1.2300033569335938,
+      "pct": 1.4698892835179824,
       "spark": [
-        99.9,
         102.78,
         102.0,
         104.12,
@@ -1163,17 +1162,18 @@
         83.98,
         80.17,
         82.05,
-        84.15
+        83.68,
+        84.91
       ],
       "perf": {
-        "w1": 1.0689399072945305,
-        "m1": -15.765765524958464,
-        "ytd": 46.55173146868905
+        "w1": 2.0430291988237093,
+        "m1": -17.386646555192485,
+        "ytd": 47.87531586518161
       },
       "hi52": 112.94999694824219,
-      "dd52": -25.498004604250223,
-      "ma200": 88.56575010299683,
-      "vs200": -4.9858422380916645,
+      "dd52": -24.82513859560507,
+      "ma200": 88.66480012893676,
+      "vs200": -4.234822005313433,
       "src": "Yahoo",
       "name": "WTI 유가",
       "symbol": "CL=F",
@@ -1182,12 +1182,11 @@
       "chart": "NYMEX:CL1!"
     },
     {
-      "date": "2026-11-25",
-      "close": 3617.800048828125,
-      "change": 55.900146484375,
-      "pct": 1.5693912804116812,
+      "date": "2026-11-26",
+      "close": 3593.39990234375,
+      "change": 57.599853515625,
+      "pct": 1.6290472515468006,
       "spark": [
-        4074.6001,
         4051.6001,
         4031.3999,
         3898.8999,
@@ -1208,17 +1207,18 @@
         3515.3999,
         3651.3999,
         3561.8999,
-        3617.8
+        3535.8,
+        3593.3999
       ],
       "perf": {
-        "w1": -3.3164931386297836,
-        "m1": -11.210917338633575,
-        "ytd": -16.66167636214224
+        "w1": -2.4989851487247305,
+        "m1": -11.30911699744398,
+        "ytd": -17.22374924540859
       },
       "hi52": 5318.39990234375,
-      "dd52": -31.97578002297632,
-      "ma200": 4423.384995117188,
-      "vs200": -18.211956390373395,
+      "dd52": -32.434567382565845,
+      "ma200": 4415.449494628906,
+      "vs200": -18.617574344019182,
       "src": "Yahoo",
       "name": "금",
       "symbol": "GC=F",
@@ -1227,12 +1227,11 @@
       "chart": "COMEX:GC1!"
     },
     {
-      "date": "2026-11-25",
-      "close": 1343.1700439453125,
-      "change": 2.1500244140625,
-      "pct": 0.16032754043552871,
+      "date": "2026-11-26",
+      "close": 1343.1800537109375,
+      "change": 0.530029296875,
+      "pct": 0.03947635550867448,
       "spark": [
-        1324.77,
         1326.8101,
         1340.34,
         1337.98,
@@ -1253,17 +1252,18 @@
         1334.79,
         1344.3101,
         1341.02,
-        1343.17
+        1342.65,
+        1343.1801
       ],
       "perf": {
-        "w1": 0.7621873883357999,
-        "m1": 1.6198125243238382,
-        "ytd": -6.588728639648389
+        "w1": 0.960615533850695,
+        "m1": 1.3896777484594391,
+        "ytd": -6.588032506692432
       },
       "hi52": 1554.47998046875,
-      "dd52": -13.59360938567491,
-      "ma200": 1437.5228497314454,
-      "vs200": -6.563569115006396,
+      "dd52": -13.592965455502071,
+      "ma200": 1437.0353497314454,
+      "vs200": -6.531175175199944,
       "src": "Yahoo",
       "name": "달러/원",
       "symbol": "KRW=X",
@@ -1272,12 +1272,11 @@
       "chart": "FX_IDC:USDKRW"
     },
     {
-      "date": "2026-11-25",
-      "close": 103.697998046875,
-      "change": -0.11199951171875,
-      "pct": -0.1078889455281355,
+      "date": "2026-11-26",
+      "close": 103.76100158691406,
+      "change": 0.09100341796875,
+      "pct": 0.08778182654199214,
       "spark": [
-        102.32,
         102.19,
         102.04,
         101.88,
@@ -1298,17 +1297,18 @@
         103.81,
         104.32,
         103.81,
-        103.698
+        103.67,
+        103.761
       ],
       "perf": {
-        "w1": -0.15598167006020125,
-        "m1": 1.3467536709936834,
-        "ytd": 5.512819836053406
+        "w1": -0.13378242244801442,
+        "m1": 1.5373315470939453,
+        "ytd": 5.57692600294557
       },
       "hi52": 104.31999969482422,
-      "dd52": -0.5962439127385033,
-      "ma200": 100.11149021148681,
-      "vs200": 3.582513683306132,
+      "dd52": -0.5358494148249959,
+      "ma200": 100.14600521087647,
+      "vs200": 3.609725987996759,
       "src": "Yahoo",
       "name": "달러 인덱스",
       "symbol": "DX-Y.NYB",
@@ -1317,12 +1317,11 @@
       "chart": "TVC:DXY"
     },
     {
-      "date": "2026-11-25",
-      "close": 28.290000915527344,
-      "change": 1.9300003051757812,
-      "pct": 7.3217005329577685,
+      "date": "2026-11-26",
+      "close": 26.799999237060547,
+      "change": -1.4900016784667969,
+      "pct": -5.266884518370551,
       "spark": [
-        17.52,
         16.91,
         17.2,
         19.42,
@@ -1343,17 +1342,18 @@
         35.89,
         26.62,
         26.36,
-        28.29
+        28.29,
+        26.8
       ],
       "perf": {
-        "w1": 15.187302649405154,
-        "m1": 53.83361530425894,
-        "ytd": 89.23077776893919
+        "w1": -5.766530471872278,
+        "m1": 52.96802817824477,
+        "ytd": 79.26421123063474
       },
       "hi52": 35.88999938964844,
-      "dd52": -21.17581109882415,
-      "ma200": 18.784100041389465,
-      "vs200": 50.606102252395836,
+      "dd52": -25.327390100791337,
+      "ma200": 18.81510003566742,
+      "vs200": 42.43878154384675,
       "src": "Yahoo",
       "name": "VIX 변동성",
       "symbol": "^VIX",
@@ -1362,12 +1362,11 @@
       "chart": "TVC:VIX"
     },
     {
-      "date": "2026-11-25",
-      "close": 60115.12890625,
-      "change": 367.36328125,
-      "pct": 0.6148569363341778,
+      "date": "2026-11-26",
+      "close": 60570.828125,
+      "change": 192.62890625,
+      "pct": 0.3190371835239838,
       "spark": [
-        80405.2891,
         75942.125,
         75746.9297,
         75747.5781,
@@ -1388,17 +1387,18 @@
         61161.9102,
         61210.9844,
         59747.7656,
-        60115.1289
+        60378.1992,
+        60570.8281
       ],
       "perf": {
-        "w1": -4.559868872304296,
-        "m1": -24.862340555258488,
-        "ytd": -31.303926478846332
+        "w1": -2.1501664745571802,
+        "m1": -25.04081484668449,
+        "ytd": -30.78317991131252
       },
       "hi52": 96929.328125,
-      "dd52": -37.980454348424274,
-      "ma200": 72027.14361328125,
-      "vs200": -16.53823004697741,
+      "dd52": -37.51031880991902,
+      "ma200": 71920.61845703125,
+      "vs200": -15.780996570284145,
       "src": "Yahoo",
       "name": "비트코인",
       "symbol": "BTC-USD",
@@ -1430,83 +1430,83 @@
     {
       "name": "30년물",
       "date": "2026-11-25",
-      "value": 5.234999656677246,
+      "value": 5.235000133514404,
       "bp": -6,
       "src": "CBOE"
     }
   ],
   "news": [
     {
-      "title": "We are living in perilous times if Nvidia’s Jensen Huang dictates your 401(k) balance",
+      "title": "Trump demands probe into ‘record setting error’ after third-quarter GDP data gets massive revision higher",
+      "link": "https://www.cnbc.com/2026/11/26/trump-gdp-revision-investigation.html",
+      "source": "CNBC",
+      "time": "2026-11-26T21:13:17+00:00"
+    },
+    {
+      "title": "Microdrama apps chase profits as Hollywood moves into short-form, vertical video",
+      "link": "https://www.cnbc.com/2026/11/26/micro-drama-apps-hollywood-vertical-video.html",
+      "source": "CNBC",
+      "time": "2026-11-26T18:27:43+00:00"
+    },
+    {
+      "title": "We are living in perilous times if Nvidia CEO Jensen Huang dictates your 401(k) balance",
       "link": "https://www.marketwatch.com/story/we-are-living-in-perilous-times-if-nvidias-jensen-huang-dictates-your-401-k-balance-e0942d1e?mod=mw_rss_topstories",
       "source": "MarketWatch",
-      "time": "2026-11-25T22:31:00+00:00"
+      "time": "2026-11-26T15:30:00+00:00"
+    },
+    {
+      "title": "Spain’s Pablo Hernández de Cos set to lead European Central Bank",
+      "link": "",
+      "source": "CNBC",
+      "time": "2026-11-26T15:28:26+00:00"
+    },
+    {
+      "title": "Nvidia and the whole AI trade aren’t out of the woods — not by a long shot",
+      "link": "https://www.marketwatch.com/story/nvidia-and-the-whole-ai-trade-arent-out-of-the-woods-not-by-a-long-shot-bccc0025?mod=mw_rss_topstories",
+      "source": "MarketWatch",
+      "time": "2026-11-26T14:00:00+00:00"
+    },
+    {
+      "title": "Health Care Roundup: Market Talk",
+      "link": "https://www.wsj.com/business/health-care-roundup-market-talk-b4d17b6e?mod=rss_markets_main",
+      "source": "WSJ 마켓",
+      "time": "2026-11-26T12:11:00+00:00"
+    },
+    {
+      "title": "Switzerland’s biggest bank set for showdown with lawmakers as capital fight intensifies amid crisis planning",
+      "link": "https://www.cnbc.com/2026/11/26/ubs-swiss-capital-rules-finma-crisis-plan.html",
+      "source": "CNBC",
+      "time": "2026-11-26T11:17:39+00:00"
+    },
+    {
+      "title": "SpaceX, Musk pledge to donate a share each to active Trump Accounts",
+      "link": "https://www.cnbc.com/2026/11/25/spacex-musk-trump-account-stock.html",
+      "source": "CNBC",
+      "time": "2026-11-26T06:39:34+00:00"
+    },
+    {
+      "title": "‘Your booth is waiting’: Denny’s welcomes Jensen Huang back as Nvidia CEO",
+      "link": "https://www.cnbc.com/2026/11/26/dennys-jensen-huang-nvidia.html",
+      "source": "CNBC",
+      "time": "2026-11-26T03:13:43+00:00"
+    },
+    {
+      "title": "The Other Nvidia Romance With an Executive at a Company Linked to China",
+      "link": "https://www.wsj.com/finance/stocks/nvidia-china-executive-affair-jay-puri-cenly-chen-a42d733b?mod=rss_markets_main",
+      "source": "WSJ 마켓",
+      "time": "2026-11-26T02:00:00+00:00"
+    },
+    {
+      "title": "Aschenbrenner’s Situational Awareness Tells Investors It Lost 65% in Third Quarter",
+      "link": "https://www.wsj.com/finance/investing/aschenbrenners-situational-awareness-tells-investors-it-lost-65-in-third-quarter-de8e9797?mod=rss_markets_main",
+      "source": "WSJ 마켓",
+      "time": "2026-11-26T01:04:00+00:00"
     },
     {
       "title": "Jensen Huang, Trump and the 11 Days That Rocked Nvidia",
       "link": "https://www.wsj.com/finance/stocks/jensen-huang-trump-and-the-11-days-that-rocked-nvidia-604fff0b?mod=rss_markets_main",
       "source": "WSJ 마켓",
       "time": "2026-11-25T22:27:00+00:00"
-    },
-    {
-      "title": "Oracle, CoreWeave and other tech stocks bounce back after selloff",
-      "link": "",
-      "source": "MarketWatch",
-      "time": "2026-11-25T22:16:00+00:00"
-    },
-    {
-      "title": "Nvidia’s stock has given back a big chunk of Monday’s rally as dip buyers cash in",
-      "link": "https://www.marketwatch.com/story/nvidias-stock-is-giving-back-more-than-half-of-mondays-rally-as-dip-buyers-cash-in-ee4fa52c?mod=mw_rss_topstories",
-      "source": "MarketWatch",
-      "time": "2026-11-25T22:11:00+00:00"
-    },
-    {
-      "title": "Energy & Utilities Roundup: Market Talk",
-      "link": "https://www.wsj.com/business/energy-utilities-roundup-market-talk-7cb12596?mod=rss_markets_main",
-      "source": "WSJ 마켓",
-      "time": "2026-11-25T22:03:00+00:00"
-    },
-    {
-      "title": "Elon Musk and SpaceX to donate roughly $17.8 billion to ‘Trump accounts’",
-      "link": "https://www.marketwatch.com/story/elon-musk-and-spacex-to-donate-roughly-17-8-billion-to-trump-accounts-071c12e1?mod=mw_rss_topstories",
-      "source": "MarketWatch",
-      "time": "2026-11-25T21:50:00+00:00"
-    },
-    {
-      "title": "Wall Street Can’t Seem to Find Its Footing in the Chaos of the New AI Trade",
-      "link": "https://www.wsj.com/finance/stocks/wall-street-cant-seem-to-find-its-footing-in-the-chaos-of-the-new-ai-trade-b64564e0?mod=rss_markets_main",
-      "source": "WSJ 마켓",
-      "time": "2026-11-25T21:48:00+00:00"
-    },
-    {
-      "title": "HP’s stock is a standout gainer in the tech selloff, as an earnings beat still matters",
-      "link": "https://www.marketwatch.com/story/hps-stock-is-a-standout-gainer-in-the-tech-rout-as-an-earnings-beat-still-matters-8f6c76ad?mod=mw_rss_topstories",
-      "source": "MarketWatch",
-      "time": "2026-11-25T21:36:00+00:00"
-    },
-    {
-      "title": "Bullish hopes spring as traders bet against a higher VIX: Options Action Live",
-      "link": "https://www.cnbc.com/2026/11/25/bullish-hopes-spring-as-traders-bet-against-a-higher-vix-options-action-live.html",
-      "source": "CNBC",
-      "time": "2026-11-25T21:26:47+00:00"
-    },
-    {
-      "title": "Stocks Finish Lower After Wild Session",
-      "link": "https://www.wsj.com/finance/stocks/stocks-finish-lower-after-wild-session-df50cdeb?mod=rss_markets_main",
-      "source": "WSJ 마켓",
-      "time": "2026-11-25T21:23:00+00:00"
-    },
-    {
-      "title": "We're buying more of a stock down big from its July highs",
-      "link": "https://www.cnbc.com/investingclub/2026/11/25/were-buying-more-of-a-stock-down-big-from-its-july-highs.html",
-      "source": "CNBC",
-      "time": "2026-11-25T19:55:18+00:00"
-    },
-    {
-      "title": "SpaceX wins FCC approval to deploy 1 million orbital data center satellites",
-      "link": "https://www.cnbc.com/2026/11/25/spacex-fcc-satellite-approval.html",
-      "source": "CNBC",
-      "time": "2026-11-25T19:52:47+00:00"
     }
   ],
   "fed": [
@@ -1583,14 +1583,24 @@
         "date": "2026-12-03",
         "name": "신규 실업수당 청구",
         "star": 1
+      },
+      {
+        "date": "2026-12-04",
+        "name": "고용보고서(비농업 고용·실업률)",
+        "star": 3
+      },
+      {
+        "date": "2026-12-04",
+        "name": "신규 실업수당 청구",
+        "star": 1
       }
     ]
   },
   "market_date": "2026-11-25",
   "headline": {
-    "text": "Jensen Huang tells staff that Nvidia doesn't need a succession plan",
+    "text": "‘Your booth is waiting’: Denny’s welcomes Jensen Huang back as Nvidia CEO",
     "tag": "경영",
-    "link": "https://www.cnbc.com/2026/11/24/jensen-huang-nvidia-employee-meeting.html",
+    "link": "https://www.cnbc.com/2026/11/26/dennys-jensen-huang-nvidia.html",
     "source": "CNBC",
     "note": "엔비디아 -3.91%",
     "manual": false
